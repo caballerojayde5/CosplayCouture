@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - Manage Custom Orders{% endblock %}
+{% block page_title %}Custom Orders{% endblock %}
+{% block page_subtitle %}
+    <p class="text-sm text-slate-500 mt-2">Review, price, and track bespoke costume requests.</p>
+{% endblock %}
+
+{% block body %}
+<div class="grid gap-6">
+    <section class="card-surface rounded-3xl p-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div>
+            <h2 class="text-lg font-semibold text-slate-900">Manage custom orders</h2>
+            <p class="text-sm text-slate-500 mt-1">Keep pricing and status updates current.</p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+            <a href="{{ path('admin_dashboard') }}" class="px-4 py-2 rounded-full bg-slate-100 text-slate-700 text-sm">Back to Dashboard</a>
+            <a href="{{ path('admin_custom_order_new') }}" class="px-4 py-2 rounded-full bg-teal-600 text-white text-sm">Add New Custom Order</a>
+        </div>
+    </section>
+
+    {% for message in app.flashes('success') %}
+        <div class="card-surface rounded-2xl p-4 text-sm text-emerald-700 bg-emerald-50">{{ message }}</div>
+    {% endfor %}
+
+    <section class="card-surface rounded-3xl p-6">
+        <div class="overflow-x-auto rounded-2xl border border-slate-200">
+            <table class="min-w-full text-sm">
+                <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider text-xs">
+                    <tr>
+                        <th class="px-4 py-3 text-left">ID</th>
+                        <th class="px-4 py-3 text-left">Customer</th>
+                        <th class="px-4 py-3 text-left">Email</th>
+                        <th class="px-4 py-3 text-left">Cosplay</th>
+                        <th class="px-4 py-3 text-left">Status</th>
+                        <th class="px-4 py-3 text-left">Price</th>
+                        <th class="px-4 py-3 text-left">Created</th>
+                        <th class="px-4 py-3 text-left">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 text-slate-700">
+                    {% for custom_order in orders %}
+                        <tr class="hover:bg-slate-50">
+                            <td class="px-4 py-3 whitespace-nowrap font-medium text-slate-900">{{ custom_order.id }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap">{{ custom_order.customerName }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap">{{ custom_order.email }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap">{{ custom_order.cosplayName }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <span class="px-2 py-1 rounded-full text-xs
+                                    {% if custom_order.status == 'Completed' %}bg-emerald-100 text-emerald-700
+                                    {% elseif custom_order.status == 'In Progress' %}bg-amber-100 text-amber-700
+                                    {% elseif custom_order.status == 'Pending' %}bg-sky-100 text-sky-700
+                                    {% else %}bg-slate-100 text-slate-700{% endif %}">
+                                    {{ custom_order.status }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">${{ custom_order.price }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap">{{ custom_order.createdAt|date('Y-m-d H:i') }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap flex flex-wrap gap-2">
+                                <a href="{{ path('admin_custom_order_show', {'id': custom_order.id}) }}" class="px-3 py-1 rounded-full bg-sky-100 text-sky-800 text-xs">Show</a>
+                                <a href="{{ path('admin_custom_order_edit', {'id': custom_order.id}) }}" class="px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs">Edit</a>
+                                <form method="post" action="{{ path('admin_custom_order_delete', {'id': custom_order.id}) }}" class="inline">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ custom_order.id) }}">
+                                    <button class="px-3 py-1 rounded-full bg-rose-100 text-rose-700 text-xs">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="8" class="px-4 py-6 text-center text-slate-500">No custom orders found.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+{% endblock %}

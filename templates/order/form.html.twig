@@ -1,0 +1,20 @@
+{% set backPath = back_path|default('app_order_index') %}
+{% set backLabel = back_label|default('Back to Orders') %}
+
+{{ form_start(form, {'attr': {'class':'space-y-4'}}) }}
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    {{ form_row(form.customerName) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.costume) }}
+    {{ form_row(form.price) }}
+    {{ form_row(form.address) }}
+    {{ form_row(form.status) }}
+</div>
+
+<div class="flex flex-wrap gap-3 pt-2">
+    <button type="submit" class="px-4 py-2 rounded-full bg-teal-600 text-white text-sm">
+        {{ button_label|default('Save') }}
+    </button>
+    <a href="{{ path(backPath) }}" class="px-4 py-2 rounded-full bg-slate-100 text-slate-700 text-sm">{{ backLabel }}</a>
+</div>
+{{ form_end(form) }}

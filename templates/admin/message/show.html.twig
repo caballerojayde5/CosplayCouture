@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Message Details{% endblock %}
+{% block page_title %}Message Details{% endblock %}
+{% block page_subtitle %}
+    <p class="text-sm text-slate-500 mt-2">From {{ message.name }} - {{ message.email }}.</p>
+{% endblock %}
+
+{% block body %}
+<div class="grid gap-6 max-w-4xl">
+    <section class="card-surface rounded-3xl p-6">
+        <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+            <div>
+                <h2 class="text-lg font-semibold text-slate-900">{{ message.subject }}</h2>
+                <p class="text-sm text-slate-500 mt-1">{{ message.createdAt|date('Y-m-d H:i') }}</p>
+            </div>
+            <a href="{{ path('app_message_index') }}" class="px-4 py-2 rounded-full bg-slate-100 text-slate-700 text-sm">Back to Messages</a>
+        </div>
+
+        <div class="mt-6 rounded-2xl bg-slate-50 p-4 text-sm text-slate-700">
+            {{ message.message|nl2br }}
+        </div>
+
+        {% if message.reply %}
+            <div class="mt-6 rounded-2xl bg-emerald-50 p-4 text-sm text-emerald-800">
+                <p class="text-xs uppercase tracking-[0.2em] text-emerald-600">Your Reply</p>
+                <div class="mt-2">{{ message.reply|nl2br }}</div>
+            </div>
+        {% endif %}
+    </section>
+
+    <section class="card-surface rounded-3xl p-6">
+        <h3 class="text-base font-semibold text-slate-900">Reply to message</h3>
+        <form method="post" class="mt-4 space-y-4">
+            <div class="rounded-2xl bg-slate-50 p-4 text-sm">
+                <label for="reply" class="text-xs uppercase tracking-[0.2em] text-slate-500">Reply</label>
+                <textarea class="mt-2 w-full rounded-xl border border-slate-200 bg-white p-3 text-sm text-slate-700" id="reply" name="reply" rows="5" required>{{ message.reply }}</textarea>
+            </div>
+            <div class="flex flex-wrap gap-3">
+                <button type="submit" class="px-4 py-2 rounded-full bg-teal-600 text-white text-sm">Send Reply</button>
+                <a href="{{ path('app_message_index') }}" class="px-4 py-2 rounded-full bg-slate-100 text-slate-700 text-sm">Back to Messages</a>
+            </div>
+        </form>
+    </section>
+</div>
+{% endblock %}

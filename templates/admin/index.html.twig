@@ -1,0 +1,164 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+{% block page_title %}Admin Dashboard{% endblock %}
+{% block page_subtitle %}
+    <p class="text-sm text-slate-500 mt-2">Welcome back, {{ app.user.email }}</p>
+{% endblock %}
+
+{% block body %}
+<div class="grid gap-8">
+    <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+        <div class="card-surface rounded-3xl p-5">
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Total Admins</p>
+                    <p class="text-3xl font-semibold text-slate-900 mt-2">{{ totalAdmins }}</p>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-teal-100 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-teal-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-surface rounded-3xl p-5">
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Total Staff</p>
+                    <p class="text-3xl font-semibold text-slate-900 mt-2">{{ totalStaff }}</p>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-sky-100 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-sky-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-surface rounded-3xl p-5">
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Total Costumes</p>
+                    <p class="text-3xl font-semibold text-slate-900 mt-2">{{ totalCostumes }}</p>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-amber-100 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-surface rounded-3xl p-5">
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Custom Orders</p>
+                    <p class="text-3xl font-semibold text-slate-900 mt-2">{{ totalCustomOrders }}</p>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-rose-100 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-rose-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="card-surface rounded-3xl p-6">
+        <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div>
+                <h2 class="text-lg font-semibold text-slate-900">Quick actions</h2>
+                <p class="text-sm text-slate-500 mt-1">Jump into the most used admin tasks.</p>
+            </div>
+            <div class="text-xs uppercase tracking-[0.2em] text-slate-400">Today</div>
+        </div>
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+            <a href="{{ path('admin_users_index') }}" class="group card-surface rounded-2xl p-5 transition hover:-translate-y-1">
+                <div class="flex items-center gap-4">
+                    <div class="w-11 h-11 rounded-2xl bg-teal-100 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-teal-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="font-medium text-slate-900">Manage users</p>
+                        <p class="text-sm text-slate-500">Add, edit, or reset credentials.</p>
+                    </div>
+                </div>
+            </a>
+
+            <a href="{{ path('admin_custom_orders') }}" class="group card-surface rounded-2xl p-5 transition hover:-translate-y-1">
+                <div class="flex items-center gap-4">
+                    <div class="w-11 h-11 rounded-2xl bg-rose-100 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-rose-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="font-medium text-slate-900">Custom orders</p>
+                        <p class="text-sm text-slate-500">Review and approve new requests.</p>
+                    </div>
+                </div>
+            </a>
+
+            <a href="{{ path('app_costume_admin') }}" class="group card-surface rounded-2xl p-5 transition hover:-translate-y-1">
+                <div class="flex items-center gap-4">
+                    <div class="w-11 h-11 rounded-2xl bg-amber-100 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="font-medium text-slate-900">Costume inventory</p>
+                        <p class="text-sm text-slate-500">Update catalog and availability.</p>
+                    </div>
+                </div>
+            </a>
+
+            <a href="{{ path('app_report_index') }}" class="group card-surface rounded-2xl p-5 transition hover:-translate-y-1">
+                <div class="flex items-center gap-4">
+                    <div class="w-11 h-11 rounded-2xl bg-sky-100 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-sky-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="font-medium text-slate-900">View reports</p>
+                        <p class="text-sm text-slate-500">Review trends and performance.</p>
+                    </div>
+                </div>
+            </a>
+
+            <a href="{{ path('admin_activity_logs') }}" class="group card-surface rounded-2xl p-5 transition hover:-translate-y-1">
+                <div class="flex items-center gap-4">
+                    <div class="w-11 h-11 rounded-2xl bg-slate-100 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="font-medium text-slate-900">Activity logs</p>
+                        <p class="text-sm text-slate-500">Audit trail and recent changes.</p>
+                    </div>
+                </div>
+            </a>
+
+            <a href="{{ path('app_message_index') }}" class="group card-surface rounded-2xl p-5 transition hover:-translate-y-1">
+                <div class="flex items-center gap-4">
+                    <div class="w-11 h-11 rounded-2xl bg-teal-100 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-teal-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="font-medium text-slate-900">Messages</p>
+                        <p class="text-sm text-slate-500">Reply to customer requests.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </section>
+</div>
+{% endblock %}

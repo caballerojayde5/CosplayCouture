@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User Management{% endblock %}
+{% block page_title %}User Management{% endblock %}
+{% block page_subtitle %}
+    <p class="text-sm text-slate-500 mt-2">Maintain admin and staff access for the studio.</p>
+{% endblock %}
+
+{% block body %}
+<div class="grid gap-8">
+    <section class="card-surface rounded-3xl p-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div>
+            <h2 class="text-lg font-semibold text-slate-900">Access control</h2>
+            <p class="text-sm text-slate-500 mt-1">Create new accounts or update existing roles.</p>
+        </div>
+        <a href="{{ path('admin_users_new') }}" class="px-4 py-2 rounded-full bg-teal-600 text-white text-sm">Create New User</a>
+    </section>
+
+    <section class="card-surface rounded-3xl p-6">
+        <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+            <h3 class="text-base font-semibold text-slate-900">Admins</h3>
+            <span class="text-xs uppercase tracking-[0.2em] text-slate-400">Primary access</span>
+        </div>
+        <div class="mt-4 overflow-x-auto rounded-2xl border border-slate-200">
+            <table class="min-w-full text-sm">
+                <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider text-xs">
+                    <tr>
+                        <th class="px-4 py-3 text-left">ID</th>
+                        <th class="px-4 py-3 text-left">Email</th>
+                        <th class="px-4 py-3 text-left">Role</th>
+                        <th class="px-4 py-3 text-left">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 text-slate-700">
+                    {% for admin in admins %}
+                    <tr class="hover:bg-slate-50">
+                        <td class="px-4 py-3 whitespace-nowrap font-medium text-slate-900">{{ admin.id }}</td>
+                        <td class="px-4 py-3 whitespace-nowrap">{{ admin.email }}</td>
+                        <td class="px-4 py-3 whitespace-nowrap">Admin</td>
+                        <td class="px-4 py-3 whitespace-nowrap flex flex-wrap gap-2">
+                            <a href="{{ path('admin_users_edit', {'id': admin.id}) }}" class="px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs">Edit</a>
+                            <a href="{{ path('admin_users_reset_password', {'id': admin.id}) }}" class="px-3 py-1 rounded-full bg-sky-100 text-sky-800 text-xs">Reset Password</a>
+                            <form method="post" action="{{ path('admin_users_delete', {'id': admin.id}) }}" class="inline">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ admin.id) }}">
+                                <button type="submit" class="px-3 py-1 rounded-full bg-rose-100 text-rose-700 text-xs" onclick="return confirm('Are you sure?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="card-surface rounded-3xl p-6">
+        <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+            <h3 class="text-base font-semibold text-slate-900">Staff</h3>
+            <span class="text-xs uppercase tracking-[0.2em] text-slate-400">Operations team</span>
+        </div>
+        <div class="mt-4 overflow-x-auto rounded-2xl border border-slate-200">
+            <table class="min-w-full text-sm">
+                <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider text-xs">
+                    <tr>
+                        <th class="px-4 py-3 text-left">ID</th>
+                        <th class="px-4 py-3 text-left">Email</th>
+                        <th class="px-4 py-3 text-left">Role</th>
+                        <th class="px-4 py-3 text-left">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 text-slate-700">
+                    {% for staff in staffs %}
+                    <tr class="hover:bg-slate-50">
+                        <td class="px-4 py-3 whitespace-nowrap font-medium text-slate-900">{{ staff.id }}</td>
+                        <td class="px-4 py-3 whitespace-nowrap">{{ staff.email }}</td>
+                        <td class="px-4 py-3 whitespace-nowrap">Staff</td>
+                        <td class="px-4 py-3 whitespace-nowrap flex flex-wrap gap-2">
+                            <a href="{{ path('admin_users_edit', {'id': staff.id}) }}" class="px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs">Edit</a>
+                            <a href="{{ path('admin_users_reset_password', {'id': staff.id}) }}" class="px-3 py-1 rounded-full bg-sky-100 text-sky-800 text-xs">Reset Password</a>
+                            <form method="post" action="{{ path('admin_users_delete', {'id': staff.id}) }}" class="inline">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ staff.id) }}">
+                                <button type="submit" class="px-3 py-1 rounded-full bg-rose-100 text-rose-700 text-xs" onclick="return confirm('Are you sure?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+{% endblock %}

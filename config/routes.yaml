@@ -4,8 +4,207 @@
 # Methods with the #[Route] attribute are automatically imported.
 # See also https://symfony.com/doc/current/routing.html
 
+# Security routes
+app_login:
+    path: /login
+    controller: App\Controller\SecurityController::login
+
+app_logout:
+    path: /logout
+    controller: App\Controller\SecurityController::logout
+    methods: [GET]
+    
+admin_dashboard:
+    path: /admin
+    controller: App\Controller\AdminController::index
+
+admin_profile:
+    path: /admin/profile
+    controller: App\Controller\AdminController::profile
+
+admin_change_password:
+    path: /admin/change-password
+    controller: App\Controller\AdminController::changePassword
+    methods: [GET, POST]
+
+admin_users_index:
+    path: /admin/users
+    controller: App\Controller\AdminController::usersIndex
+
+admin_users_new:
+    path: /admin/users/new
+    controller: App\Controller\AdminController::usersNew
+    methods: [GET, POST]
+
+admin_users_edit:
+    path: /admin/users/{id}/edit
+    controller: App\Controller\AdminController::usersEdit
+    methods: [GET, POST]
+
+admin_users_reset_password:
+    path: /admin/users/{id}/reset-password
+    controller: App\Controller\AdminController::usersResetPassword
+    methods: [GET, POST]
+
+admin_users_delete:
+    path: /admin/users/{id}/delete
+    controller: App\Controller\AdminController::usersDelete
+    methods: [POST]
+
+admin_activity_logs:
+    path: /admin/activity-logs
+    controller: App\Controller\AdminController::activityLogs
+    
+app_staff_index:
+    path: /staff
+    controller: App\Controller\StaffController::index
+
+staff_profile:
+    path: /staff/profile
+    controller: App\Controller\StaffController::profile
+
+staff_change_password:
+    path: /staff/change-password
+    controller: App\Controller\StaffController::changePassword
+    methods: [GET, POST]
+
+
+
+
+# Costume routes
+app_costume_index:
+    path: /costume/
+    controller: App\Controller\CostumeController::index
+    methods: [GET]
+
+app_costume_admin:
+    path: /costume/admin
+    controller: App\Controller\CostumeController::adminHome
+    methods: [GET]
+
+app_costume_new:
+    path: /costume/new
+    controller: App\Controller\CostumeController::new
+    methods: [GET, POST]
+
+app_costume_show:
+    path: /costume/{id}
+    controller: App\Controller\CostumeController::show
+    methods: [GET]
+
+app_costume_edit:
+    path: /costume/{id}/edit
+    controller: App\Controller\CostumeController::edit
+    methods: [GET, POST]
+
+app_costume_delete:
+    path: /costume/{id}
+    controller: App\Controller\CostumeController::delete
+    methods: [POST]
+
+
+
+# Custom Order routes
+app_custom_order_index:
+    path: /custom-orders/
+    controller: App\Controller\CustomOrderController::index
+    methods: [GET]
+
+app_custom_order_new:
+    path: /custom-orders/new
+    controller: App\Controller\CustomOrderController::customerNew
+    methods: [GET, POST]
+
+app_custom_order_show:
+    path: /custom-orders/{id}
+    controller: App\Controller\CustomOrderController::customerShow
+    methods: [GET]
+
+app_custom_order_edit:
+    path: /custom-orders/{id}/edit
+    controller: App\Controller\CustomOrderController::customerEdit
+    methods: [GET, POST]
+
+app_custom_order_delete:
+    path: /custom-orders/{id}/delete
+    controller: App\Controller\CustomOrderController::customerDelete
+    methods: [POST]
+
+admin_custom_orders:
+    path: /custom-orders/admin
+    controller: App\Controller\CustomOrderController::adminList
+    methods: [GET]
+
+admin_custom_order_new:
+    path: /custom-orders/admin/new
+    controller: App\Controller\CustomOrderController::new
+    methods: [GET, POST]
+
+admin_custom_order_show:
+    path: /custom-orders/admin/{id}
+    controller: App\Controller\CustomOrderController::show
+    methods: [GET]
+
+admin_custom_order_edit:
+    path: /custom-orders/admin/{id}/edit
+    controller: App\Controller\CustomOrderController::edit
+    methods: [GET, POST]
+
+admin_custom_order_delete:
+    path: /custom-orders/admin/{id}/delete
+    controller: App\Controller\CustomOrderController::delete
+    methods: [POST]
+
+# Message routes
+app_message_index:
+    path: /admin/messages/
+    controller: App\Controller\MessageController::index
+    methods: [GET]
+
+app_message_show:
+    path: /admin/messages/{id}
+    controller: App\Controller\MessageController::show
+    methods: [GET, POST]
+
+# Report routes
+app_report_index:
+    path: /reports/
+    controller: App\Controller\ReportController::index
+    methods: [GET]
+
+# Order routes
+app_order_index:
+    path: /orders/
+    controller: App\Controller\OrderController::index
+    methods: [GET]
+
+app_order_new:
+    path: /orders/new
+    controller: App\Controller\OrderController::new
+    methods: [GET, POST]
+
+app_order_show:
+    path: /orders/{id}
+    controller: App\Controller\OrderController::show
+    methods: [GET]
+
+app_order_edit:
+    path: /orders/{id}/edit
+    controller: App\Controller\OrderController::edit
+    methods: [GET, POST]
+
+app_order_delete:
+    path: /orders/{id}/delete
+    controller: App\Controller\OrderController::delete
+    methods: [POST]
+
+# Delivery routes (assuming they exist)
+app_delivery_index:
+    path: /deliveries/
+    controller: App\Controller\DeliveryController::index
+    methods: [GET]
+
+# Staff routes
+
 # To list all registered routes, run the following command:
 #   bin/console debug:router
-
-controllers:
-    resource: routing.controllers

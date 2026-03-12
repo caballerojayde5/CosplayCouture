@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Custom Order #{{ custom_order.id }}{% endblock %}
+{% block page_title %}Custom Order Details{% endblock %}
+{% block page_subtitle %}
+    <p class="text-sm text-slate-500 mt-2">Order #{{ custom_order.id }} for {{ custom_order.customerName }}.</p>
+{% endblock %}
+
+{% block body %}
+<div class="grid gap-6 max-w-5xl">
+    <section class="card-surface rounded-3xl p-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div>
+            <h2 class="text-lg font-semibold text-slate-900">Order overview</h2>
+            <p class="text-sm text-slate-500 mt-1">Review and update the request details.</p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+            <a href="{{ path('app_custom_order_edit', {'id': custom_order.id}) }}" class="px-4 py-2 rounded-full bg-amber-100 text-amber-800 text-sm">Edit Order</a>
+            <a href="{{ path('app_custom_order_index') }}" class="px-4 py-2 rounded-full bg-slate-100 text-slate-700 text-sm">Back to Custom Orders</a>
+        </div>
+    </section>
+
+    <section class="card-surface rounded-3xl p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+            <div class="rounded-2xl bg-slate-50 p-4">
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Customer Name</p>
+                <p class="mt-2 text-base font-medium text-slate-900">{{ custom_order.customerName }}</p>
+            </div>
+            <div class="rounded-2xl bg-slate-50 p-4">
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Email</p>
+                <p class="mt-2 text-base font-medium text-slate-900">{{ custom_order.email }}</p>
+            </div>
+            <div class="rounded-2xl bg-slate-50 p-4">
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Cosplay Name</p>
+                <p class="mt-2 text-base font-medium text-slate-900">{{ custom_order.cosplayName }}</p>
+            </div>
+            <div class="rounded-2xl bg-slate-50 p-4">
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Status</p>
+                <p class="mt-2">
+                    <span class="px-2 py-1 rounded-full text-xs
+                        {% if custom_order.status == 'Completed' %}bg-emerald-100 text-emerald-700
+                        {% elseif custom_order.status == 'In Progress' %}bg-amber-100 text-amber-700
+                        {% elseif custom_order.status == 'Pending' %}bg-sky-100 text-sky-700
+                        {% else %}bg-slate-100 text-slate-700{% endif %}">
+                        {{ custom_order.status }}
+                    </span>
+                </p>
+            </div>
+            <div class="rounded-2xl bg-slate-50 p-4">
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Measurements</p>
+                <p class="mt-2 text-slate-700">Bust: {{ custom_order.bust }} cm</p>
+                <p class="text-slate-700">Height: {{ custom_order.height }} cm</p>
+                <p class="text-slate-700">Hip: {{ custom_order.hip }} cm</p>
+                <p class="text-slate-700">Waist: {{ custom_order.waist }} cm</p>
+            </div>
+            <div class="rounded-2xl bg-slate-50 p-4">
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Order Details</p>
+                <p class="mt-2 text-slate-700">Price: PHP {{ custom_order.price }}</p>
+                <p class="text-slate-700">Created: {{ custom_order.createdAt|date('Y-m-d H:i') }}</p>
+                <p class="text-slate-700">Address: {{ custom_order.address ?: 'Not provided' }}</p>
+            </div>
+            <div class="rounded-2xl bg-slate-50 p-4 md:col-span-2">
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Special Request</p>
+                <p class="mt-2 text-slate-700">{{ custom_order.specialRequest ?: 'None' }}</p>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

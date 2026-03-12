@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - Edit Custom Order #{{ custom_order.id }}{% endblock %}
+{% block page_title %}Edit Custom Order{% endblock %}
+{% block page_subtitle %}
+    <p class="text-sm text-slate-500 mt-2">Update measurements, status, and pricing.</p>
+{% endblock %}
+
+{% block body %}
+<div class="max-w-4xl">
+    <div class="card-surface rounded-3xl p-6">
+        <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+            <h2 class="text-lg font-semibold text-slate-900">Order #{{ custom_order.id }}</h2>
+            <a href="{{ path('admin_custom_orders') }}" class="px-4 py-2 rounded-full bg-slate-100 text-slate-700 text-sm">Back to Custom Orders</a>
+        </div>
+
+        <div class="mt-6">
+            {% include 'custom_order/_form.html.twig' with {
+                'button_label': 'Update Order',
+                'back_path': 'admin_custom_orders',
+                'back_label': 'Back to Custom Orders'
+            } %}
+        </div>
+    </div>
+</div>
+{% endblock %}

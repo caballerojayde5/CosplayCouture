@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Cosplay Couture Admin{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --ink: #0f1a23;
+            --slate: #1f2a36;
+            --fog: #f7f3ec;
+            --mist: #ebe4d8;
+            --teal: #2a9d8f;
+            --teal-dark: #1f7a70;
+            --gold: #c58f3a;
+            --rose: #b45d5c;
+        }
+
+        body {
+            font-family: "Space Grotesk", "Segoe UI", sans-serif;
+            color: var(--ink);
+            background: linear-gradient( #d1fae5, #fbcfe8, #e9d5ff);
+        }
+
+        .brand {
+            font-family: "Fraunces", "Times New Roman", serif;
+            letter-spacing: 0.02em;
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.86);
+            border: 1px solid rgba(15, 26, 35, 0.08);
+            box-shadow: 0 16px 40px rgba(15, 26, 35, 0.08);
+        }
+
+        .card-surface {
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(15, 26, 35, 0.08);
+            box-shadow: 0 12px 30px rgba(15, 26, 35, 0.08);
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 0.65rem 0.85rem;
+            border-radius: 0.9rem;
+            color: rgba(234, 242, 248, 0.86);
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+        }
+
+        .nav-link-active {
+            background: rgba(42, 157, 143, 0.24);
+            color: #ffffff;
+            box-shadow: inset 0 0 0 1px rgba(42, 157, 143, 0.35);
+        }
+
+        .nav-link-danger:hover {
+            background: rgba(180, 93, 92, 0.2);
+            color: #fff4f4;
+        }
+
+        .badge {
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 0.15rem 0.45rem;
+            border-radius: 999px;
+            background: rgba(197, 143, 58, 0.22);
+            color: #fef3d6;
+            border: 1px solid rgba(197, 143, 58, 0.35);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+{% set currentRoute = app.request.attributes.get('_route') %}
+<div class="min-h-screen lg:grid lg:grid-cols-[260px_1fr]">
+    {% if currentRoute != 'app_login' %}
+    <aside class="hidden lg:flex lg:flex-col bg-slate-900 text-white min-h-screen">
+        <div class="px-6 pt-8 pb-6">
+            <div class="brand text-2xl">Cosplay Couture</div>
+            <div class="text-xs uppercase tracking-[0.2em] text-slate-400 mt-2">Studio Console</div>
+        </div>
+        {% if app.user %}
+        <div class="px-6 pb-6">
+            <div class="rounded-2xl bg-white/10 p-4">
+                <div class="text-xs uppercase tracking-[0.2em] text-slate-300">Signed in</div>
+                <div class="mt-2 font-medium text-slate-100">{{ app.user.email }}</div>
+                <div class="mt-2 text-xs text-slate-300">
+                    {% if is_granted('ROLE_ADMIN') %}Administrator{% else %}Staff{% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <nav class="px-4 pb-10">
+            {% if app.user and is_granted('ROLE_ADMIN') %}
+                <div class="text-xs uppercase tracking-[0.2em] text-slate-400 px-3">Overview</div>
+                <div class="mt-3 space-y-1">
+                    <a href="{{ path('admin_dashboard') }}" class="{{ currentRoute == 'admin_dashboard' ? 'nav-link nav-link-active' : 'nav-link' }}">Dashboard</a>
+                </div>
+
+                <div class="mt-6 text-xs uppercase tracking-[0.2em] text-slate-400 px-3">Inventory</div>
+                <div class="mt-3 space-y-1">
+                    <a href="{{ path('app_costume_index') }}" class="{{ currentRoute starts with 'app_costume' ? 'nav-link nav-link-active' : 'nav-link' }}">Products</a>
+                </div>
+
+                <div class="mt-6 text-xs uppercase tracking-[0.2em] text-slate-400 px-3">Sales</div>
+                <div class="mt-3 space-y-1">
+                    <a href="{{ path('app_order_index') }}" class="{{ currentRoute starts with 'app_order' ? 'nav-link nav-link-active' : 'nav-link' }}">Orders</a>
+                    <a href="{{ path('admin_custom_orders') }}" class="{{ currentRoute starts with 'admin_custom_order' ? 'nav-link nav-link-active' : 'nav-link' }}">Custom Orders</a>
+                </div>
+
+                <div class="mt-6 text-xs uppercase tracking-[0.2em] text-slate-400 px-3">Communication</div>
+                <div class="mt-3 space-y-1">
+                    <a href="{{ path('app_message_index') }}" class="{{ currentRoute starts with 'app_message' ? 'nav-link nav-link-active' : 'nav-link' }}">Messages</a>
+                </div>
+
+                <div class="mt-6 text-xs uppercase tracking-[0.2em] text-slate-400 px-3">Analytics</div>
+                <div class="mt-3 space-y-1">
+                    <a href="{{ path('app_report_index') }}" class="{{ currentRoute starts with 'app_report' ? 'nav-link nav-link-active' : 'nav-link' }}">Reports</a>
+                </div>
+
+                <div class="mt-6 text-xs uppercase tracking-[0.2em] text-slate-400 px-3">Logistics</div>
+                <div class="mt-3 space-y-1">
+                    <a href="{{ path('app_delivery_index') }}" class="{{ currentRoute starts with 'app_delivery' ? 'nav-link nav-link-active' : 'nav-link' }}">
+                        <span class="flex-1">Deliveries</span>
+                        {% if pendingDeliveriesCount is defined and pendingDeliveriesCount > 0 %}
+                            <span class="badge">{{ pendingDeliveriesCount }}</span>
+                        {% endif %}
+                    </a>
+                </div>
+
+                <div class="mt-6 text-xs uppercase tracking-[0.2em] text-slate-400 px-3">Administration</div>
+                <div class="mt-3 space-y-1">
+                    <a href="{{ path('admin_activity_logs') }}" class="{{ currentRoute starts with 'admin_activity' ? 'nav-link nav-link-active' : 'nav-link' }}">Activity Logs</a>
+                    <a href="{{ path('admin_users_index') }}" class="{{ currentRoute starts with 'admin_users' ? 'nav-link nav-link-active' : 'nav-link' }}">Users</a>
+                </div>
+            {% elseif app.user %}
+                <div class="text-xs uppercase tracking-[0.2em] text-slate-400 px-3">Workspace</div>
+                <div class="mt-3 space-y-1">
+                    <a href="{{ path('app_staff_index') }}" class="{{ currentRoute == 'app_staff_index' ? 'nav-link nav-link-active' : 'nav-link' }}">Dashboard</a>
+                    <a href="{{ path('app_order_index') }}" class="{{ currentRoute starts with 'app_order' ? 'nav-link nav-link-active' : 'nav-link' }}">Orders</a>
+                    <a href="{{ path('app_custom_order_index') }}" class="{{ currentRoute starts with 'app_custom_order' ? 'nav-link nav-link-active' : 'nav-link' }}">Custom Orders</a>
+                    <a href="{{ path('app_message_index') }}" class="{{ currentRoute starts with 'app_message' ? 'nav-link nav-link-active' : 'nav-link' }}">Messages</a>
+                </div>
+            {% endif %}
+            {% if app.user %}
+            <div class="mt-8 text-xs uppercase tracking-[0.2em] text-slate-400 px-3">Account</div>
+            <div class="mt-3 space-y-1">
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('admin_profile') }}" class="{{ currentRoute == 'admin_profile' ? 'nav-link nav-link-active' : 'nav-link' }}">Profile</a>
+                    <a href="{{ path('admin_change_password') }}" class="{{ currentRoute == 'admin_change_password' ? 'nav-link nav-link-active' : 'nav-link' }}">Change Password</a>
+                {% else %}
+                    <a href="{{ path('staff_profile') }}" class="{{ currentRoute == 'staff_profile' ? 'nav-link nav-link-active' : 'nav-link' }}">Profile</a>
+                    <a href="{{ path('staff_change_password') }}" class="{{ currentRoute == 'staff_change_password' ? 'nav-link nav-link-active' : 'nav-link' }}">Change Password</a>
+                {% endif %}
+                <a href="{{ path('app_logout') }}" class="nav-link nav-link-danger">Logout</a>
+            </div>
+            {% endif %}
+        </nav>
+    </aside>
+    {% endif %}
+
+    <div class="min-h-screen flex flex-col">
+        {% if currentRoute != 'app_login' %}
+        <header class="px-5 pt-6 lg:px-10">
+            <div class="panel rounded-2xl px-5 py-4 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                <div>
+                    <div class="text-xs uppercase tracking-[0.2em] text-slate-500">Cosplay Couture</div>
+                    <div class="brand text-2xl text-slate-900">{% block page_title %}Dashboard{% endblock %}</div>
+                    {% block page_subtitle %}{% endblock %}
+                </div>
+                <div class="flex flex-wrap gap-2 text-xs text-slate-600">
+                    <span class="px-3 py-1 rounded-full bg-slate-100">Console</span>
+                    <span class="px-3 py-1 rounded-full bg-slate-100">Updated {{ "now"|date("M d, Y") }}</span>
+                </div>
+            </div>
+
+            <details class="lg:hidden mt-4 panel rounded-2xl p-4">
+                <summary class="cursor-pointer text-sm font-medium text-slate-700">Open navigation</summary>
+                <div class="mt-4 space-y-4">
+                    {% if app.user and is_granted('ROLE_ADMIN') %}
+                        <div>
+                            <div class="text-xs uppercase tracking-[0.2em] text-slate-500 font-medium">Overview</div>
+                            <div class="mt-2 space-y-1">
+                                <a href="{{ path('admin_dashboard') }}" class="block text-sm text-slate-700">Dashboard</a>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="text-xs uppercase tracking-[0.2em] text-slate-500 font-medium">Inventory</div>
+                            <div class="mt-2 space-y-1">
+                                <a href="{{ path('app_costume_index') }}" class="block text-sm text-slate-700">Products</a>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="text-xs uppercase tracking-[0.2em] text-slate-500 font-medium">Sales</div>
+                            <div class="mt-2 space-y-1">
+                                <a href="{{ path('app_order_index') }}" class="block text-sm text-slate-700">Orders</a>
+                                <a href="{{ path('admin_custom_orders') }}" class="block text-sm text-slate-700">Custom Orders</a>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="text-xs uppercase tracking-[0.2em] text-slate-500 font-medium">Communication</div>
+                            <div class="mt-2 space-y-1">
+                                <a href="{{ path('app_message_index') }}" class="block text-sm text-slate-700">Messages</a>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="text-xs uppercase tracking-[0.2em] text-slate-500 font-medium">Analytics</div>
+                            <div class="mt-2 space-y-1">
+                                <a href="{{ path('app_report_index') }}" class="block text-sm text-slate-700">Reports</a>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="text-xs uppercase tracking-[0.2em] text-slate-500 font-medium">Logistics</div>
+                            <div class="mt-2 space-y-1">
+                                <a href="{{ path('app_delivery_index') }}" class="block text-sm text-slate-700">Deliveries</a>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="text-xs uppercase tracking-[0.2em] text-slate-500 font-medium">Administration</div>
+                            <div class="mt-2 space-y-1">
+                                <a href="{{ path('admin_activity_logs') }}" class="block text-sm text-slate-700">Activity Logs</a>
+                                <a href="{{ path('admin_users_index') }}" class="block text-sm text-slate-700">Users</a>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="text-xs uppercase tracking-[0.2em] text-slate-500 font-medium">Account</div>
+                            <div class="mt-2 space-y-1">
+                                <a href="{{ path('admin_profile') }}" class="block text-sm text-slate-700">Profile</a>
+                                <a href="{{ path('admin_change_password') }}" class="block text-sm text-slate-700">Change Password</a>
+                            </div>
+                        </div>
+                    {% elseif app.user %}
+                        <div>
+                            <div class="text-xs uppercase tracking-[0.2em] text-slate-500 font-medium">Workspace</div>
+                            <div class="mt-2 space-y-1">
+                                <a href="{{ path('app_staff_index') }}" class="block text-sm text-slate-700">Dashboard</a>
+                                <a href="{{ path('app_order_index') }}" class="block text-sm text-slate-700">Orders</a>
+                                <a href="{{ path('app_custom_order_index') }}" class="block text-sm text-slate-700">Custom Orders</a>
+                                <a href="{{ path('app_message_index') }}" class="block text-sm text-slate-700">Messages</a>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="text-xs uppercase tracking-[0.2em] text-slate-500 font-medium">Account</div>
+                            <div class="mt-2 space-y-1">
+                                <a href="{{ path('staff_profile') }}" class="block text-sm text-slate-700">Profile</a>
+                                <a href="{{ path('staff_change_password') }}" class="block text-sm text-slate-700">Change Password</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if app.user %}
+                        <div class="pt-2 border-t border-slate-200">
+                            <a href="{{ path('app_logout') }}" class="block text-sm text-rose-700">Logout</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </details>
+        </header>
+        {% endif %}
+
+        <main class="flex-1 px-5 py-8 lg:px-10">
+            {% block body %}{% endblock %}
+        </main>
+
+        {% if currentRoute != 'app_login' %}
+        <footer class="px-5 pb-6 lg:px-10 text-sm text-slate-500">
+            <div class="panel rounded-2xl px-5 py-4 text-center">
+                Copyright {{ "now"|date("Y") }} Cosplay Couture Admin - All rights reserved.
+            </div>
+        </footer>
+        {% endif %}
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Manage Products | Costume Admin{% endblock %}
+{% block page_title %}Products{% endblock %}
+{% block page_subtitle %}
+    <p class="text-sm text-slate-500 mt-2">Maintain costume inventory, pricing, and stock.</p>
+{% endblock %}
+
+{% block body %}
+<div class="grid gap-6">
+    <section class="card-surface rounded-3xl p-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div>
+            <h2 class="text-lg font-semibold text-slate-900">Manage products</h2>
+            <p class="text-sm text-slate-500 mt-1">Keep images and stock levels current.</p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('admin_dashboard') }}" class="group flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 text-slate-700 text-sm transition hover:-translate-y-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    Back to Dashboard
+                </a>
+            {% elseif is_granted('ROLE_STAFF') %}
+                <a href="{{ path('app_staff_index') }}" class="group flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 text-slate-700 text-sm transition hover:-translate-y-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    Back to Dashboard
+                </a>
+            {% endif %}
+            <a href="{{ path('app_costume_new') }}" class="group flex items-center gap-2 px-4 py-2 rounded-full bg-teal-600 text-white text-sm transition hover:-translate-y-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+                Add New
+            </a>
+        </div>
+    </section>
+
+    <section class="card-surface rounded-3xl p-6">
+        <div class="overflow-x-auto rounded-2xl border border-slate-200">
+            <table class="min-w-full text-sm">
+                <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider text-xs">
+                    <tr>
+                        <th class="px-4 py-3 text-left">ID</th>
+                        <th class="px-4 py-3 text-left">Image</th>
+                        <th class="px-4 py-3 text-left">Name</th>
+                        <th class="px-4 py-3 text-left">Description</th>
+                        <th class="px-4 py-3 text-left">Price</th>
+                        <th class="px-4 py-3 text-left">Stock</th>
+                        <th class="px-4 py-3 text-left">Category</th>
+                        <th class="px-4 py-3 text-left">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 text-slate-700">
+                    {% for costume in costumes %}
+                        <tr class="hover:bg-slate-50">
+                            <td class="px-4 py-3 whitespace-nowrap font-medium text-slate-900">{{ costume.id }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                {% if costume.imageUrl %}
+                                    <img src="{{ costume.imageUrl }}" alt="{{ costume.name }}" class="w-16 h-16 object-cover rounded-xl">
+                                {% else %}
+                                    <div class="w-16 h-16 rounded-xl bg-slate-100 flex items-center justify-center text-xs text-slate-500">No image</div>
+                                {% endif %}
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">{{ costume.name }}</td>
+                            <td class="px-4 py-3">{{ costume.description }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap">PHP {{ costume.price|number_format(2, '.', ',') }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap">{{ costume.stockQuantity }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap">{{ costume.category }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap flex flex-wrap gap-2">
+                                <a href="{{ path('app_costume_show', {'id': costume.id}) }}" class="px-3 py-1 rounded-full bg-sky-100 text-sky-800 text-xs">Show</a>
+                                <a href="{{ path('app_costume_edit', {'id': costume.id}) }}" class="px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs">Edit</a>
+                                <form method="post" action="{{ path('app_costume_delete', {'id': costume.id}) }}" class="inline" onsubmit="return confirm('Delete this product?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ costume.id) }}">
+                                    <button class="px-3 py-1 rounded-full bg-rose-100 text-rose-700 text-xs">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="8" class="px-4 py-6 text-center text-slate-500">No costume products found.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+{% endblock %}

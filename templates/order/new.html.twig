@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Customer Order{% endblock %}
+{% block page_title %}New Order{% endblock %}
+{% block page_subtitle %}
+    <p class="text-sm text-slate-500 mt-2">Create a new customer order and assign a costume.</p>
+{% endblock %}
+
+{% block body %}
+<div class="max-w-3xl">
+    <div class="card-surface rounded-3xl p-6">
+        <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+            <h2 class="text-lg font-semibold text-slate-900">Order details</h2>
+            <a href="{{ path('app_order_index') }}" class="px-4 py-2 rounded-full bg-slate-100 text-slate-700 text-sm">Back to Orders</a>
+        </div>
+
+        <div class="mt-6 space-y-4 text-sm">
+            {{ form_start(form) }}
+                <div class="space-y-4">
+                    <div class="rounded-2xl bg-slate-50 p-4">
+                        {{ form_row(form.customerName) }}
+                    </div>
+                    <div class="rounded-2xl bg-slate-50 p-4">
+                        {{ form_row(form.email) }}
+                    </div>
+                    <div class="rounded-2xl bg-slate-50 p-4">
+                        {{ form_label(form.costume) }}
+                        {{ form_widget(form.costume, {'attr': {'id': 'costume-select'}}) }}
+                        {{ form_errors(form.costume) }}
+                    </div>
+                    <div class="rounded-2xl bg-slate-50 p-4">
+                        {{ form_label(form.price) }}
+                        {{ form_widget(form.price, {'attr': {'id': 'price-field'}}) }}
+                        {{ form_errors(form.price) }}
+                    </div>
+                    <div class="rounded-2xl bg-slate-50 p-4">
+                        {{ form_row(form.address) }}
+                    </div>
+                    <div class="rounded-2xl bg-slate-50 p-4">
+                        {{ form_row(form.status) }}
+                    </div>
+                </div>
+
+                <div class="mt-6 flex flex-wrap gap-3">
+                    <button type="submit" class="px-4 py-2 rounded-full bg-teal-600 text-white text-sm">Create Order</button>
+                    <a href="{{ path('app_order_index') }}" class="px-4 py-2 rounded-full bg-slate-100 text-slate-700 text-sm">Back to Orders</a>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const costumeSelect = document.getElementById('costume-select');
+    const priceField = document.getElementById('price-field');
+
+    const costumePrices = {
+        {% for costume in costumes %}
+            {{ costume.id }}: '{{ costume.price }}',
+        {% endfor %}
+    };
+
+    costumeSelect.addEventListener('change', function() {
+        const selectedCostumeId = this.value;
+        if (selectedCostumeId && costumePrices[selectedCostumeId]) {
+            priceField.value = costumePrices[selectedCostumeId];
+        } else {
+            priceField.value = '';
+        }
+    });
+});
+</script>
+{% endblock %}

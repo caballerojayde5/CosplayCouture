@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Order #{{ order.id }}{% endblock %}
+{% block page_title %}Edit Order{% endblock %}
+{% block page_subtitle %}
+    <p class="text-sm text-slate-500 mt-2">Update customer details and order status.</p>
+{% endblock %}
+
+{% block body %}
+<div class="max-w-3xl">
+    <div class="card-surface rounded-3xl p-6">
+        <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+            <h2 class="text-lg font-semibold text-slate-900">Order #{{ order.id }}</h2>
+            <a href="{{ path('app_order_index') }}" class="group flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 text-slate-700 text-sm transition hover:-translate-y-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                Back to Orders
+            </a>
+        </div>
+
+        <div class="mt-6 space-y-4 text-sm">
+            {{ form_start(form) }}
+                <div class="space-y-4">
+                    <div class="rounded-2xl bg-slate-50 p-4">
+                        {{ form_row(form.customerName) }}
+                    </div>
+                    <div class="rounded-2xl bg-slate-50 p-4">
+                        {{ form_row(form.email) }}
+                    </div>
+                    <div class="rounded-2xl bg-slate-50 p-4">
+                        {{ form_row(form.costume) }}
+                    </div>
+                    <div class="rounded-2xl bg-slate-50 p-4">
+                        {{ form_row(form.price) }}
+                    </div>
+                    <div class="rounded-2xl bg-slate-50 p-4">
+                        {{ form_row(form.address) }}
+                    </div>
+                    <div class="rounded-2xl bg-slate-50 p-4">
+                        {{ form_row(form.status) }}
+                    </div>
+                </div>
+
+                <div class="mt-6 flex flex-wrap gap-3">
+                    <button type="submit" class="group flex items-center gap-2 px-4 py-2 rounded-full bg-teal-600 text-white text-sm transition hover:-translate-y-1">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                        </svg>
+                        Update Order
+                    </button>
+                    <a href="{{ path('app_order_show', {'id': order.id}) }}" class="group flex items-center gap-2 px-4 py-2 rounded-full bg-sky-100 text-sky-800 text-sm transition hover:-translate-y-1">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                        </svg>
+                        View Order
+                    </a>
+                    <a href="{{ path('app_order_index') }}" class="group flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 text-slate-700 text-sm transition hover:-translate-y-1">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                        </svg>
+                        Back to Orders
+                    </a>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

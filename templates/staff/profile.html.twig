@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Profile{% endblock %}
+{% block page_title %}My Profile{% endblock %}
+{% block page_subtitle %}
+    <p class="text-sm text-slate-500 mt-2">Your staff account details and access.</p>
+{% endblock %}
+
+{% block body %}
+<div class="max-w-3xl">
+    <div class="card-surface rounded-3xl p-6">
+        <div class="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+            <div>
+                <h2 class="text-lg font-semibold text-slate-900">Profile information</h2>
+                <p class="text-sm text-slate-500 mt-1">Keep contact information accurate for order updates.</p>
+            </div>
+            <div class="text-xs uppercase tracking-[0.2em] text-slate-400">Staff</div>
+        </div>
+
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+            <div class="rounded-2xl bg-slate-50 p-4">
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Email</p>
+                <p class="mt-2 text-base font-medium text-slate-900">{{ user.email }}</p>
+            </div>
+            <div class="rounded-2xl bg-slate-50 p-4">
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Role</p>
+                <p class="mt-2 text-base font-medium text-slate-900">Staff</p>
+            </div>
+        </div>
+
+        <div class="mt-6 flex flex-wrap gap-3">
+            <a href="{{ path('staff_change_password') }}" class="px-4 py-2 rounded-full bg-teal-600 text-white text-sm">Change Password</a>
+            <a href="{{ path('app_staff_index') }}" class="px-4 py-2 rounded-full bg-slate-100 text-slate-700 text-sm">Back to Staff</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

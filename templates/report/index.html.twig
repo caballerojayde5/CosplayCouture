@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reports{% endblock %}
+{% block page_title %}Reports{% endblock %}
+{% block page_subtitle %}
+    <p class="text-sm text-slate-500 mt-2">Sales performance and inventory signals.</p>
+{% endblock %}
+
+{% block body %}
+<div class="grid gap-6">
+    <section class="card-surface rounded-3xl p-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div>
+            <h2 class="text-lg font-semibold text-slate-900">Overview</h2>
+            <p class="text-sm text-slate-500 mt-1">Quick performance snapshot.</p>
+        </div>
+        <a href="{{ path('admin_dashboard') }}" class="px-4 py-2 rounded-full bg-slate-100 text-slate-700 text-sm">Back to Dashboard</a>
+    </section>
+
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="card-surface rounded-3xl p-5">
+            <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Total Sales</p>
+            <p class="text-2xl font-semibold text-slate-900 mt-2">PHP {{ totalSales|number_format(2) }}</p>
+        </div>
+    </section>
+
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="card-surface rounded-3xl p-6">
+            <h3 class="text-base font-semibold text-slate-900">Best selling cosplays</h3>
+            <ul class="mt-4 space-y-3 text-sm text-slate-700">
+                {% for item in bestSelling %}
+                    <li class="rounded-2xl bg-slate-50 p-3">{{ item.cosplayName }} - {{ item.count }} orders</li>
+                {% else %}
+                    <li class="rounded-2xl bg-slate-50 p-3 text-slate-500">No data yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="card-surface rounded-3xl p-6">
+            <h3 class="text-base font-semibold text-slate-900">Out of stock items</h3>
+            <ul class="mt-4 space-y-3 text-sm text-slate-700">
+                {% for costume in outOfStock %}
+                    <li class="rounded-2xl bg-slate-50 p-3">{{ costume.name }}</li>
+                {% else %}
+                    <li class="rounded-2xl bg-slate-50 p-3 text-slate-500">All items in stock.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+</div>
+{% endblock %}

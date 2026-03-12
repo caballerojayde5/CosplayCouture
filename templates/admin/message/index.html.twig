@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Messages - Admin{% endblock %}
+{% block page_title %}Messages{% endblock %}
+{% block page_subtitle %}
+    <p class="text-sm text-slate-500 mt-2">Respond to customer questions and custom requests.</p>
+{% endblock %}
+
+{% block body %}
+<div class="grid gap-6">
+    <section class="card-surface rounded-3xl p-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div>
+            <h2 class="text-lg font-semibold text-slate-900">Inbox overview</h2>
+            <p class="text-sm text-slate-500 mt-1">Keep response times tight and clear.</p>
+        </div>
+        <a href="{{ path('admin_dashboard') }}" class="px-4 py-2 rounded-full bg-slate-100 text-slate-700 text-sm">Back to Dashboard</a>
+    </section>
+
+    {% for message in app.flashes('success') %}
+        <div class="card-surface rounded-2xl p-4 text-sm text-emerald-700 bg-emerald-50">{{ message }}</div>
+    {% endfor %}
+
+    <section class="card-surface rounded-3xl p-6">
+        <div class="overflow-x-auto rounded-2xl border border-slate-200">
+            <table class="min-w-full text-sm">
+                <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider text-xs">
+                    <tr>
+                        <th class="px-4 py-3 text-left">ID</th>
+                        <th class="px-4 py-3 text-left">Name</th>
+                        <th class="px-4 py-3 text-left">Email</th>
+                        <th class="px-4 py-3 text-left">Subject</th>
+                        <th class="px-4 py-3 text-left">Read</th>
+                        <th class="px-4 py-3 text-left">Created</th>
+                        <th class="px-4 py-3 text-left">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 text-slate-700">
+                    {% for message in messages %}
+                        <tr class="hover:bg-slate-50">
+                            <td class="px-4 py-3 whitespace-nowrap font-medium text-slate-900">{{ message.id }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap">{{ message.name }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap">{{ message.email }}</td>
+                            <td class="px-4 py-3">{{ message.subject }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                {% if message.isRead %}
+                                    <span class="px-2 py-1 rounded-full text-xs bg-emerald-100 text-emerald-700">Yes</span>
+                                {% else %}
+                                    <span class="px-2 py-1 rounded-full text-xs bg-amber-100 text-amber-700">No</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">{{ message.createdAt|date('Y-m-d H:i') }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <a href="{{ path('app_message_show', {'id': message.id}) }}" class="px-3 py-1 rounded-full bg-sky-100 text-sky-800 text-xs">View</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="7" class="px-4 py-6 text-center text-slate-500">No messages found.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+{% endblock %}

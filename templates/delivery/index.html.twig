@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Manage Deliveries | Admin{% endblock %}
+{% block page_title %}Deliveries{% endblock %}
+{% block page_subtitle %}
+    <p class="text-sm text-slate-500 mt-2">Track shipments and delivery methods.</p>
+{% endblock %}
+
+{% block body %}
+<div class="grid gap-6">
+    {% for message in app.flashes('success') %}
+        <div class="card-surface rounded-2xl p-4 text-sm text-emerald-700 bg-emerald-50">{{ message }}</div>
+    {% endfor %}
+
+    <section class="card-surface rounded-3xl p-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div>
+            <h2 class="text-lg font-semibold text-slate-900">Manage deliveries</h2>
+            <p class="text-sm text-slate-500 mt-1">Check delivery status and access related orders.</p>
+        </div>
+        <a href="{{ path('admin_dashboard') }}" class="px-4 py-2 rounded-full bg-slate-100 text-slate-700 text-sm">Back to Dashboard</a>
+    </section>
+
+    <section class="card-surface rounded-3xl p-6">
+        <div class="overflow-x-auto rounded-2xl border border-slate-200">
+            <table class="min-w-full text-sm">
+                <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider text-xs">
+                    <tr>
+                        <th class="px-4 py-3 text-left">ID</th>
+                        <th class="px-4 py-3 text-left">Order</th>
+                        <th class="px-4 py-3 text-left">Status</th>
+                        <th class="px-4 py-3 text-left">Method</th>
+                        <th class="px-4 py-3 text-left">Address</th>
+                        <th class="px-4 py-3 text-left">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 text-slate-700">
+                    {% for delivery in deliveries %}
+                        <tr class="hover:bg-slate-50">
+                            <td class="px-4 py-3 whitespace-nowrap font-medium text-slate-900">{{ delivery.id }}</td>
+                            <td class="px-4 py-3">
+                                {% if delivery.order %}
+                                    Order #{{ delivery.order.id }} - {{ delivery.order.customerName }}
+                                {% elseif delivery.customOrder %}
+                                    Custom Order #{{ delivery.customOrder.id }} - {{ delivery.customOrder.customerName }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">{{ delivery.deliveryStatus }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap">{{ delivery.deliveryMethod }}</td>
+                            <td class="px-4 py-3">{{ delivery.deliveryAddress }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                {% if delivery.order %}
+                                    <a href="{{ path('app_order_show', {'id': delivery.order.id}) }}" class="px-3 py-1 rounded-full bg-sky-100 text-sky-800 text-xs">View Order</a>
+                                {% elseif delivery.customOrder %}
+                                    <a href="{{ path('admin_custom_order_show', {'id': delivery.customOrder.id}) }}" class="px-3 py-1 rounded-full bg-sky-100 text-sky-800 text-xs">View Order</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="px-4 py-6 text-center text-slate-500">No deliveries found.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Staff Dashboard{% endblock %}
+{% block page_title %}Staff Dashboard{% endblock %}
+{% block page_subtitle %}
+    <p class="text-sm text-slate-500 mt-2">Focus on orders and customer requests.</p>
+{% endblock %}
+
+{% block body %}
+<div class="grid gap-8">
+    <section class="card-surface rounded-3xl p-6">
+        <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div>
+                <h2 class="text-lg font-semibold text-slate-900">Today at a glance</h2>
+                {% if app.user %}
+                    <p class="text-sm text-slate-500 mt-1">Signed in as {{ app.user.email }}</p>
+                {% endif %}
+            </div>
+            <div class="text-xs uppercase tracking-[0.2em] text-slate-400">Operations</div>
+        </div>
+
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+            <a href="{{ path('app_order_index') }}" class="group card-surface rounded-2xl p-5 transition hover:-translate-y-1">
+                <div class="flex items-center gap-4">
+                    <div class="w-11 h-11 rounded-2xl bg-teal-100 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-teal-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V7a2 2 0 00-2-2H6a2 2 0 00-2 2v6m16 0l-4 4m4-4l-4-4m-8 8l4-4m-4 4l4-4"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="font-medium text-slate-900">Orders</p>
+                        <p class="text-sm text-slate-500">Track production and delivery status.</p>
+                    </div>
+                </div>
+            </a>
+
+            <a href="{{ path('app_custom_order_index') }}" class="group card-surface rounded-2xl p-5 transition hover:-translate-y-1">
+                <div class="flex items-center gap-4">
+                    <div class="w-11 h-11 rounded-2xl bg-rose-100 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-rose-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="font-medium text-slate-900">Custom orders</p>
+                        <p class="text-sm text-slate-500">Review notes, approve quotes, and update progress.</p>
+                    </div>
+                </div>
+            </a>
+
+            <a href="{{ path('app_message_index') }}" class="group card-surface rounded-2xl p-5 transition hover:-translate-y-1">
+                <div class="flex items-center gap-4">
+                    <div class="w-11 h-11 rounded-2xl bg-sky-100 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-sky-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="font-medium text-slate-900">Messages</p>
+                        <p class="text-sm text-slate-500">Respond to customer questions.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="card-surface rounded-3xl p-6">
+            <h3 class="text-base font-semibold text-slate-900">Workflow checklist</h3>
+            <ul class="mt-4 space-y-3 text-sm text-slate-600">
+                <li>Review new orders and assign production slots.</li>
+                <li>Confirm fabric availability and notify the admin team.</li>
+                <li>Update customer messages with current timelines.</li>
+            </ul>
+        </div>
+        <div class="card-surface rounded-3xl p-6">
+            <h3 class="text-base font-semibold text-slate-900">Quick access</h3>
+            <div class="mt-4 flex flex-wrap gap-3">
+                <a href="{{ path('staff_profile') }}" class="px-4 py-2 rounded-full bg-slate-100 text-sm text-slate-700">My profile</a>
+                <a href="{{ path('staff_change_password') }}" class="px-4 py-2 rounded-full bg-slate-100 text-sm text-slate-700">Change password</a>
+                <a href="{{ path('app_logout') }}" class="px-4 py-2 rounded-full bg-rose-100 text-sm text-rose-700">Logout</a>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
