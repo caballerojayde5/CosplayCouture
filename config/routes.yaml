@@ -5,9 +5,58 @@
 # See also https://symfony.com/doc/current/routing.html
 
 # Security routes
+app_home:
+    path: /
+    controller: App\Controller\SecurityController::index
+
+app_about:
+    path: /about
+    controller: App\Controller\SecurityController::about
+
+app_contact:
+    path: /contact
+    controller: App\Controller\SecurityController::contact
+    
 app_login:
     path: /login
     controller: App\Controller\SecurityController::login
+    
+# API Email Verification routes
+api_verify_email:
+    path: /api/verify-email
+    controller: App\Controller\ApiEmailVerificationController::verifyEmail
+    methods: [POST]
+
+api_resend_verification:
+    path: /api/resend-verification
+    controller: App\Controller\ApiEmailVerificationController::resendVerification
+    methods: [POST]
+
+api_verification_status:
+    path: /api/verification-status
+    controller: App\Controller\ApiEmailVerificationController::verificationStatus
+    methods: [GET] 
+
+# Google OAuth routes
+connect_google:
+    path: /connect/google
+    controller: App\Controller\GoogleController::connectGoogle
+    methods: [GET]
+
+connect_google_check:
+    path: /connect/google/check
+    controller: App\Controller\GoogleController::connectGoogleCheck
+    methods: [GET, POST]
+
+    # Registration routes
+app_register:
+    path: /register
+    controller: App\Controller\RegistrationController::register
+
+app_verify_email:
+    path: /verify-email
+    controller: App\Controller\EmailVerificationController::verifyUserEmail
+    methods: [GET]
 
 app_logout:
     path: /logout
