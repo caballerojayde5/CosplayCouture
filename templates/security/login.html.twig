@@ -4,104 +4,423 @@
 
 {% block body %}
 <style>
-body {
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,600;9..144,0,700;9..144,1,400;9..144,1,600&family=Space+Grotesk:wght@300;400;500;600&display=swap');
+
+  :root {
+    --ink:       #0f1a23;
+    --slate:     #1f2a36;
+    --fog:       #f7f3ec;
+    --mist:      #ebe4d8;
+    --teal:      #2a9d8f;
+    --teal-dark: #1f7a70;
+    --gold:      #c58f3a;
+    --rose:      #b45d5c;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
     background: none !important;
-}
-/* Override the grid layout for login page */
-.min-h-screen.lg\:grid {
-    display: block !important;
-}
+    font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+  }
+
+  .min-h-screen.lg\:grid { display: block !important; }
+
+  .cc-stage {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(160deg, #d1fae5 0%, #fbcfe8 50%, #e9d5ff 100%);
+    overflow: hidden;
+  }
+
+  .cc-stage::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 55% at 15% 20%, rgba(42,157,143,0.22) 0%, transparent 60%),
+      radial-gradient(ellipse 55% 65% at 85% 75%, rgba(197,143,58,0.18) 0%, transparent 55%),
+      radial-gradient(ellipse 45% 45% at 50% 50%, rgba(180,93,92,0.10) 0%, transparent 65%);
+    animation: aurora 14s ease-in-out infinite alternate;
+  }
+
+  @keyframes aurora {
+    0%   { opacity: 1;   transform: scale(1) rotate(0deg); }
+    100% { opacity: .82; transform: scale(1.05) rotate(1deg); }
+  }
+
+  .orb { position: absolute; border-radius: 50%; filter: blur(70px); pointer-events: none; animation: drift 18s ease-in-out infinite alternate; }
+  .orb-1 { width: 340px; height: 340px; background: rgba(42,157,143,0.18);  top: -90px;  left: -70px;  animation-duration: 20s; }
+  .orb-2 { width: 260px; height: 260px; background: rgba(197,143,58,0.15); bottom: -70px; right: -50px; animation-duration: 16s; animation-delay: -6s; }
+  .orb-3 { width: 200px; height: 200px; background: rgba(180,93,92,0.13);  bottom: 22%;  left: 8%;    animation-duration: 22s; animation-delay: -10s; }
+
+  @keyframes drift {
+    0%   { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(28px, -18px) scale(1.07); }
+  }
+
+  .cc-card {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 420px;
+    margin: 1rem;
+    background: rgba(247,243,236,0.80);
+    backdrop-filter: blur(26px) saturate(150%);
+    -webkit-backdrop-filter: blur(26px) saturate(150%);
+    border: 1px solid rgba(197,143,58,0.22);
+    border-radius: 24px;
+    padding: 50px 44px 42px;
+    box-shadow:
+      0 2px 0 0 rgba(255,255,255,0.88) inset,
+      0 -1px 0 0 rgba(42,157,143,0.1) inset,
+      0 32px 64px rgba(15,26,35,0.13),
+      0 8px 24px rgba(15,26,35,0.07);
+    animation: rise .7s cubic-bezier(.22,1,.36,1) both;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(28px) scale(.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .cc-brand { text-align: center; margin-bottom: 32px; }
+
+  .cc-crown {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px; height: 52px;
+    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+    border-radius: 14px;
+    margin-bottom: 14px;
+    box-shadow: 0 6px 20px rgba(42,157,143,0.32);
+  }
+  .cc-crown svg { width: 26px; height: 26px; color: #fff; }
+
+  .cc-wordmark {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: .02em;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .cc-tagline {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(15,26,35,0.48);
+    letter-spacing: .04em;
+  }
+
+  .cc-divider { display: flex; align-items: center; gap: 10px; margin-bottom: 26px; }
+  .cc-divider-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, rgba(42,157,143,0.28), transparent); }
+  .cc-divider-star { font-size: 10px; color: var(--gold); opacity: .75; line-height: 1; }
+
+  .cc-error {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(180,93,92,0.08);
+    border: 1px solid rgba(180,93,92,0.25);
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: var(--rose);
+    letter-spacing: .02em;
+  }
+
+  .cc-success {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(42,157,143,0.08);
+    border: 1px solid rgba(42,157,143,0.25);
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: var(--teal);
+    letter-spacing: .02em;
+  }
+
+  .cc-form { display: flex; flex-direction: column; gap: 18px; }
+  .cc-field { display: flex; flex-direction: column; gap: 7px; }
+
+  .cc-label {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: rgba(15,26,35,0.52);
+  }
+
+  .cc-input-wrap { position: relative; }
+
+  .cc-input {
+    width: 100%;
+    height: 48px;
+    padding: 0 44px 0 16px;
+    background: rgba(255,255,255,0.70);
+    border: 1px solid rgba(15,26,35,0.12);
+    border-radius: 12px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--ink);
+    transition: border-color .2s, box-shadow .2s, background .2s;
+    outline: none;
+    letter-spacing: .01em;
+  }
+  .cc-input::placeholder { color: rgba(15,26,35,0.30); }
+  .cc-input:focus {
+    border-color: var(--teal);
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 0 0 3px rgba(42,157,143,0.12), 0 2px 8px rgba(42,157,143,0.08);
+  }
+
+  .cc-input-icon {
+    position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+    color: rgba(15,26,35,0.28); pointer-events: none; width: 16px; height: 16px;
+  }
+
+  .cc-eye-btn {
+    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+    background: none; border: none; cursor: pointer;
+    color: rgba(15,26,35,0.32); display: flex; align-items: center;
+    padding: 4px; border-radius: 6px; transition: color .2s;
+  }
+  .cc-eye-btn:hover { color: var(--teal); }
+  .cc-eye-btn svg { width: 16px; height: 16px; }
+
+  .cc-remember { display: flex; align-items: center; gap: 10px; margin-top: -2px; }
+
+  .cc-checkbox {
+    appearance: none; -webkit-appearance: none;
+    width: 18px; height: 18px;
+    border: 1.5px solid rgba(15,26,35,0.2);
+    border-radius: 5px;
+    background: rgba(255,255,255,0.7);
+    cursor: pointer; position: relative; flex-shrink: 0;
+    transition: border-color .2s, background .2s;
+  }
+  .cc-checkbox:checked { background: var(--teal); border-color: var(--teal); }
+  .cc-checkbox:checked::after {
+    content: ''; position: absolute;
+    left: 4px; top: 1px; width: 8px; height: 5px;
+    border-left: 2px solid #fff; border-bottom: 2px solid #fff;
+    transform: rotate(-45deg) translateY(1px);
+  }
+
+  .cc-remember-label {
+    font-size: 13px; font-weight: 400;
+    color: rgba(15,26,35,0.52); letter-spacing: .01em; cursor: pointer;
+  }
+
+  .cc-submit {
+    margin-top: 4px;
+    width: 100%;
+    height: 50px;
+    background: var(--teal);
+    border: none;
+    border-radius: 999px;
+    color: #fff;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.2) inset,
+      0 8px 24px rgba(42,157,143,0.30),
+      0 2px 6px rgba(42,157,143,0.16);
+    transition: background .2s, transform .15s, box-shadow .2s;
+  }
+  .cc-submit::before {
+    content: ''; position: absolute; top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.13), transparent);
+    transition: left .45s ease;
+  }
+  .cc-submit:hover::before { left: 100%; }
+  .cc-submit:hover {
+    background: var(--teal-dark);
+    transform: translateY(-1px);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.2) inset,
+      0 12px 32px rgba(42,157,143,0.36),
+      0 4px 10px rgba(42,157,143,0.20);
+  }
+  .cc-submit:active { transform: translateY(0); }
+
+  .cc-footer {
+    text-align: center;
+    margin-top: 26px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(15,26,35,0.08);
+  }
+  .cc-footer-text {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 12.5px;
+    color: rgba(15,26,35,0.38);
+    letter-spacing: .04em;
+  }
+  .cc-footer-tag {
+    display: inline-flex; align-items: center; gap: 5px;
+    margin-top: 9px;
+    font-size: 9.5px; font-weight: 600; letter-spacing: .13em; text-transform: uppercase;
+    color: var(--teal-dark); opacity: .65;
+  }
+  .cc-footer-tag span { color: var(--gold); opacity: 1; }
 </style>
-<div class="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-[#DDF7F2] via-[#F5E1F3] to-[#C9B6F6] p-4">
-    <div class="w-full max-w-sm">
-        <div class="bg-white rounded-2xl shadow-[0_18px_35px_rgba(71,40,120,0.18)] px-8 py-8 border border-[#E8E2F6]">
 
-            {# Logo and Header #}
-            <div class="text-center mb-6">
-                <div class="h-16 flex items-center justify-center mb-3">
-                    <div class="text-3xl font-bold text-[#7E57C2]">Cosplay Couture</div>
-                </div>
-                <h1 class="text-sm font-semibold text-[#7E57C2] tracking-wide">Login Page</h1>
+<div class="cc-stage">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
 
-                {% if error %}
-                    <p class="text-xs text-red-500 italic mt-2">Invalid Password</p>
-                {% endif %}
-            </div>
+  <div class="cc-card">
 
-            <form method="post" class="space-y-5">
-
-                {# Email Field #}
-                <div>
-                    <label for="email" class="block text-sm font-semibold text-[#7E57C2] mb-1">Email:</label>
-                    <input
-                        type="email"
-                        value="{{ last_username }}"
-                        name="email"
-                        id="email"
-                        class="w-full px-3 py-2.5 rounded-lg border border-[#E8E2F6] bg-white text-sm text-gray-700 shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)] focus:outline-none focus:ring-2 focus:ring-[#BFA7E8] focus:border-transparent transition"
-                        autocomplete="email"
-                        required
-                        autofocus
-                        placeholder="fashion@cosplaycouture.com">
-                </div>
-
-                {# Password Field #}
-                <div>
-                    <label for="password" class="block text-sm font-semibold text-[#7E57C2] mb-1">Password:</label>
-                    <div class="relative">
-                        <input
-                            type="password"
-                            name="password"
-                            id="password"
-                            class="w-full px-3 py-2.5 rounded-lg border border-[#E8E2F6] bg-white text-sm text-gray-700 shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)] focus:outline-none focus:ring-2 focus:ring-[#BFA7E8] focus:border-transparent pr-10 transition"
-                            autocomplete="current-password"
-                            required
-                            placeholder="********">
-
-                        <button
-                            type="button"
-                            id="togglePassword"
-                            class="absolute right-3 top-1/2 -translate-y-1/2 text-[#1F1F1F] hover:text-[#7E57C2]">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
-                {# Remember Me #}
-                <div class="flex items-center gap-2">
-                    <input
-                        type="checkbox"
-                        name="_remember_me"
-                        id="remember_me"
-                        class="w-4 h-4 rounded border-[#BFA7E8] text-[#6A1BB9] focus:ring-[#BFA7E8]">
-                    <label for="remember_me" class="text-sm text-[#7E57C2]">Remember me</label>
-                </div>
-
-                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-                {# Login Button #}
-                <button
-                    type="submit"
-                    class="w-full text-white font-semibold py-2.5 px-4 rounded-lg bg-[#6A1BB9] shadow-[0_4px_12px_rgba(106,27,185,0.35)] hover:shadow-[0_6px_16px_rgba(106,27,185,0.45)] hover:-translate-y-0.5 transition duration-200 focus:outline-none focus:ring-2 focus:ring-[#BFA7E8] focus:ring-offset-2">
-                    Login
-                </button>
-            </form>
-
-            {# Tagline #}
-            <div class="mt-5 text-center">
-                <p class="text-xs text-[#7E57C2]">Step into Character, Anytime, Anywhere</p>
-            </div>
-        </div>
+    <!-- Brand -->
+    <div class="cc-brand">
+      <div class="cc-crown">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.9M14.88 3h.002" />
+        </svg>
+      </div>
+      <div class="cc-wordmark">Cosplay Couture</div>
+      <div class="cc-tagline">Step into Character, Anytime, Anywhere</div>
     </div>
+
+    <!-- Divider -->
+    <div class="cc-divider">
+      <div class="cc-divider-line"></div>
+      <div class="cc-divider-star">✦</div>
+      <div class="cc-divider-line"></div>
+    </div>
+
+    <!-- Flash Messages -->
+    {% for message in app.flashes('success') %}
+    <div class="cc-success">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="width:15px;height:15px;flex-shrink:0">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd"/>
+      </svg>
+      {{ message }}
+    </div>
+    {% endfor %}
+
+    {% for message in app.flashes('error') %}
+    <div class="cc-error">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="width:15px;height:15px;flex-shrink:0">
+        <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/>
+      </svg>
+      {{ message }}
+    </div>
+    {% endfor %}
+
+    <!-- Login Error -->
+    {% if error %}
+    <div class="cc-error">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="width:15px;height:15px;flex-shrink:0">
+        <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" />
+      </svg>
+      Invalid credentials. Please try again.
+    </div>
+    {% endif %}
+
+    <!-- Form -->
+    <form method="post" class="cc-form">
+
+      <div class="cc-field">
+        <label class="cc-label" for="email">Email</label>
+        <div class="cc-input-wrap">
+          <input
+            type="email"
+            value="{{ last_username }}"
+            name="email"
+            id="email"
+            class="cc-input"
+            autocomplete="email"
+            required
+            autofocus
+            placeholder="fashion@cosplaycouture.com">
+          <svg class="cc-input-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="cc-field">
+        <label class="cc-label" for="password">Password</label>
+        <div class="cc-input-wrap">
+          <input
+            type="password"
+            name="password"
+            id="password"
+            class="cc-input"
+            autocomplete="current-password"
+            required
+            placeholder="••••••••">
+          <button type="button" id="togglePassword" class="cc-eye-btn">
+            <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="cc-remember">
+        <input type="checkbox" name="_remember_me" id="remember_me" class="cc-checkbox">
+        <label for="remember_me" class="cc-remember-label">Keep me signed in</label>
+      </div>
+
+      <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+      <button type="submit" class="cc-submit">Sign In</button>
+    </form>
+
+    <!-- Footer -->
+    <div class="cc-footer">
+      <div class="cc-footer-text">Where every costume tells a story</div>
+      <div style="margin-top:14px;font-size:13.5px;color:rgba(15,26,35,0.52);">
+        Don't have an account?
+        <a href="{{ path('app_register') }}"
+           style="color:var(--teal);font-weight:600;text-decoration:none;letter-spacing:.01em;"
+           onmouseover="this.style.color='var(--teal-dark)'"
+           onmouseout="this.style.color='var(--teal)'">
+          Create one
+        </a>
+      </div>
+      <div class="cc-footer-tag"><span>✦</span> Handcrafted in Manila <span>✦</span></div>
+    </div>
+
+  </div>
 </div>
 
 <script>
-document.getElementById('togglePassword')?.addEventListener('click', function() {
-    const passwordInput = document.getElementById('password');
-    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-    passwordInput.setAttribute('type', type);
-});
+  const toggleBtn = document.getElementById('togglePassword');
+  const passwordInput = document.getElementById('password');
+  const eyeIcon = document.getElementById('eyeIcon');
+
+  const eyeOpen = `<path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />`;
+  const eyeClosed = `<path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />`;
+
+  toggleBtn?.addEventListener('click', function() {
+    const isPassword = passwordInput.getAttribute('type') === 'password';
+    passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+    eyeIcon.innerHTML = isPassword ? eyeOpen : eyeClosed;
+  });
 </script>
 {% endblock %}
