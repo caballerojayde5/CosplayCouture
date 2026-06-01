@@ -21,6 +21,16 @@ app_login:
     path: /login
     controller: App\Controller\SecurityController::login
     
+api_save_fcm_token:
+    path: /api/save-fcm-token
+    controller: App\Controller\ApiDataController::saveFcmToken
+    methods: [POST]
+    
+api_login:
+    path: /api/login
+    controller: App\Controller\ApiAuthController::login
+    methods: [POST]
+    
 # API Email Verification routes
 api_verify_email:
     path: /api/verify-email
@@ -37,17 +47,112 @@ api_verification_status:
     controller: App\Controller\ApiEmailVerificationController::verificationStatus
     methods: [GET] 
 
+api_messages_create:
+    path: /api/messages
+    controller: App\Controller\ApiDataController::createMessage
+    methods: [POST]
+
+api_messages_list:
+    path: /api/messages
+    controller: App\Controller\ApiDataController::getMyMessages
+    methods: [GET]
+
+api_admin_messages:
+    path: /api/admin/messages
+    controller: App\Controller\ApiDataController::getAdminMessages
+    methods: [GET]
+
+api_admin_message_reply:
+    path: /api/admin/messages/{id}/reply
+    controller: App\Controller\ApiDataController::replyMessage
+    methods: [POST]
+    
 # Google OAuth routes
 connect_google:
     path: /connect/google
     controller: App\Controller\GoogleController::connectGoogle
     methods: [GET]
 
+api_google_login:
+    path: /api/google-login
+    controller: App\Controller\ApiAuthController::googleLogin
+    methods: [POST]
+    
 connect_google_check:
     path: /connect/google/check
     controller: App\Controller\GoogleController::connectGoogleCheck
     methods: [GET, POST]
 
+api_register:
+    path: /api/register
+    controller: App\Controller\ApiAuthController::register
+    methods: [POST]
+
+api_costumes:
+    path: /api/costumes
+    controller: App\Controller\ApiDataController::costumes
+    methods: [GET]
+
+api_orders:
+    path: /api/orders
+    controller: App\Controller\ApiDataController::orders
+    methods: [GET]
+
+api_orders_create:
+    path: /api/orders
+    controller: App\Controller\ApiDataController::createOrder
+    methods: [POST]
+    
+api_order_cancel:
+    path: /api/orders/{id}/cancel
+    controller: App\Controller\ApiDataController::cancelOrder
+    methods: [POST]
+        
+api_custom_orders:
+    path: /api/custom-orders
+    controller: App\Controller\ApiDataController::customOrders
+    methods: [GET]
+
+api_dashboard:
+    path: /api/dashboard
+    controller: App\Controller\ApiDataController::dashboard
+    methods: [GET]
+
+api_admin_order_status:
+    path: /api/admin/orders/{id}/status
+    controller: App\Controller\ApiDataController::updateOrderStatus
+    methods: [POST]
+
+api_admin_order_delete:
+    path: /api/admin/orders/{id}
+    controller: App\Controller\ApiDataController::deleteOrder
+    methods: [DELETE]
+
+api_admin_costume_create:
+    path: /api/admin/costumes
+    controller: App\Controller\ApiDataController::createCostume
+    methods: [POST]
+
+api_admin_costume_update:
+    path: /api/admin/costumes/{id}
+    controller: App\Controller\ApiDataController::updateCostume
+    methods: [PUT]
+
+api_admin_costume_delete:
+    path: /api/admin/costumes/{id}
+    controller: App\Controller\ApiDataController::deleteCostume
+    methods: [DELETE]
+
+api_admin_users:
+    path: /api/admin/users
+    controller: App\Controller\ApiDataController::getUsers
+    methods: [GET]
+
+api_admin_user_delete:
+    path: /api/admin/users/{id}
+    controller: App\Controller\ApiDataController::deleteUser
+    methods: [DELETE]
+    
     # Registration routes
 app_register:
     path: /register
@@ -257,3 +362,8 @@ app_delivery_index:
 
 # To list all registered routes, run the following command:
 #   bin/console debug:router
+
+api_my_orders:
+    path: /api/my-orders
+    controller: App\Controller\ApiDataController::myOrders
+    methods: [GET]

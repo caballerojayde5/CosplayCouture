@@ -1,0 +1,4 @@
+kreait_firebase:
+    projects:
+        cosplaycouture:
+            credentials: '%kernel.project_dir%/config/firebase-service-account.json'

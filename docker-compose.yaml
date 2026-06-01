@@ -1,6 +1,6 @@
 services:
   php:
-    image: php:8.2-apache
+    image: php:8.3-apache
     container_name: daddeh-php
     working_dir: /var/www/html
     volumes:
@@ -14,7 +14,15 @@ services:
     environment:
       - APACHE_DOCUMENT_ROOT=/var/www/html/public
       - DATABASE_URL=mysql://cosplay_user:cosplay_pass@mysql:3306/CosplayCouture
-    command: bash -c "docker-php-ext-install pdo_mysql && a2enmod rewrite && apache2-foreground"
+    command: >
+      bash -c "
+        apt-get update && apt-get install -y libzip-dev zip unzip curl &&
+        docker-php-ext-install pdo_mysql zip &&
+        a2enmod rewrite &&
+        sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|g' /etc/apache2/sites-available/000-default.conf &&
+        sed -i 's|<Directory /var/www/>|<Directory /var/www/html/public>|g' /etc/apache2/apache2.conf &&
+        apache2-foreground
+      "
 
   mysql:
     image: mysql:8.0

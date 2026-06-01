@@ -59,7 +59,8 @@ final class CostumeController extends AbstractController
             $log->setEventType('Staff creates record');
             $log->setUser($user);
             $log->setDetails('Created costume: ' . $costume->getName());
-            $activityLogRepository->save($log, true);
+            $this->entityManager->persist($log);
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('app_costume_index', [], Response::HTTP_SEE_OTHER);
         }

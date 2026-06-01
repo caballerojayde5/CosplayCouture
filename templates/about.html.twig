@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us — Cosplay Couture</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,500;9..144,0,700;9..144,1,400;9..144,1,600&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --ink: #0f1a23;
+      --slate: #1f2a36;
+      --fog: #f7f3ec;
+      --mist: #ebe4d8;
+      --teal: #2a9d8f;
+      --teal-dark: #1f7a70;
+      --gold: #c58f3a;
+      --rose: #b45d5c;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Space Grotesk", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: linear-gradient(160deg, #d1fae5 0%, #fbcfe8 50%, #e9d5ff 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
+    }
+    .brand { font-family: "Fraunces", "Times New Roman", serif; letter-spacing: 0.02em; }
+    .panel {
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(15,26,35,0.08);
+      box-shadow: 0 16px 40px rgba(15,26,35,0.08);
+      backdrop-filter: blur(12px);
+    }
+    .card-surface {
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(15,26,35,0.07);
+      box-shadow: 0 8px 24px rgba(15,26,35,0.07);
+      backdrop-filter: blur(8px);
+    }
+    .btn-teal { background: var(--teal); color: #fff; padding: 0.75rem 1.75rem; border-radius: 999px; font-weight: 500; font-size: 0.9375rem; text-decoration: none; display: inline-block; transition: background 0.2s, transform 0.15s; }
+    .btn-teal:hover { background: var(--teal-dark); transform: translateY(-1px); }
+    .btn-outline { border: 1.5px solid var(--ink); color: var(--ink); padding: 0.72rem 1.75rem; border-radius: 999px; font-weight: 500; font-size: 0.9375rem; text-decoration: none; display: inline-block; transition: background 0.2s, transform 0.15s; }
+    .btn-outline:hover { background: rgba(15,26,35,0.06); transform: translateY(-1px); }
+    .teal-tag { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal-dark); background: rgba(42,157,143,0.1); border: 1px solid rgba(42,157,143,0.25); padding: 0.3rem 0.8rem; border-radius: 999px; margin-bottom: 1.25rem; width: fit-content; }
+    .fade-up { opacity: 0; transform: translateY(22px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-up.visible { opacity: 1; transform: none; }
+    /* NAV */
+    nav { position: sticky; top: 0; z-index: 50; padding: 1rem 1.5rem; }
+    .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.78); border: 1px solid rgba(15,26,35,0.07); box-shadow: 0 8px 24px rgba(15,26,35,0.06); backdrop-filter: blur(14px); border-radius: 1.25rem; padding: 0.75rem 1.5rem; }
+    .nav-logo { font-family: "Fraunces", serif; font-size: 1.3rem; color: var(--ink); text-decoration: none; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: rgba(15,26,35,0.7); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--teal); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .hamburger span { display: block; width: 20px; height: 1.5px; background: var(--ink); }
+    .mobile-menu { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(255,255,255,0.97); flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-family: "Fraunces", serif; font-size: 2rem; color: var(--ink); text-decoration: none; }
+    .mobile-close { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 1.5rem; cursor: pointer; background: none; border: none; color: var(--ink); }
+    /* LAYOUT */
+    section { padding: 6rem 1.5rem; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    /* PAGE HEADER */
+    .page-header { padding: 4rem 1.5rem 3rem; }
+    .page-header .container { display: flex; flex-direction: column; align-items: center; text-align: center; }
+    /* STORY */
+    .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .story-visual { border-radius: 2rem; aspect-ratio: 1; background: linear-gradient(145deg, rgba(42,157,143,0.12), rgba(197,143,58,0.1)); border: 1px solid rgba(42,157,143,0.15); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .story-visual::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 30% 30%, rgba(42,157,143,0.15), transparent 60%), radial-gradient(ellipse at 70% 70%, rgba(197,143,58,0.1), transparent 60%); }
+    .story-year { font-family:"Fraunces",serif; font-size:7rem; font-weight:700; color:rgba(42,157,143,0.12); position:absolute; bottom:-1rem; right:1rem; line-height:1; }
+    .story-badge { background: rgba(255,255,255,0.92); border: 1px solid rgba(15,26,35,0.07); border-radius: 1rem; padding: 1.25rem 1.5rem; position: relative; z-index: 1; text-align: center; }
+    .story-badge .big { font-family:"Fraunces",serif; font-size:2.5rem; font-weight:700; color:var(--teal-dark); }
+    .story-badge .sm { font-size:0.8rem; color:rgba(15,26,35,0.6); text-transform:uppercase; letter-spacing:0.1em; }
+    /* VALUES */
+    .values-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; margin-top: 3rem; }
+    .value-card { border-radius: 1.5rem; padding: 2rem 1.5rem; }
+    .value-icon { font-size: 1.75rem; margin-bottom: 1rem; }
+    .value-card h3 { font-family:"Fraunces",serif; font-size:1.2rem; font-weight:600; margin-bottom:0.6rem; }
+    .value-card p { font-size:0.9rem; color:rgba(15,26,35,0.6); line-height:1.7; }
+    /* TEAM */
+    .team-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5rem; margin-top: 3rem; }
+    .team-card { border-radius: 1.5rem; overflow: hidden; text-align: center; transition: transform 0.2s; }
+    .team-card:hover { transform: translateY(-4px); }
+    .team-avatar-wrap { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .team-initials { font-family:"Fraunces",serif; font-size:2.5rem; font-weight:700; color:rgba(255,255,255,0.5); position: relative; z-index: 1; }
+    .team-body { padding: 1.25rem 1rem 1.5rem; }
+    .team-name { font-family:"Fraunces",serif; font-size:1.1rem; font-weight:600; margin-bottom:0.25rem; }
+    .team-role { font-size:0.75rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--teal-dark); margin-bottom:0.6rem; }
+    .team-bio { font-size:0.8125rem; color:rgba(15,26,35,0.6); line-height:1.6; }
+    /* MILESTONES */
+    .timeline { margin-top: 3rem; display: flex; flex-direction: column; gap: 0; }
+    .timeline-item { display: grid; grid-template-columns: 120px 1fr; gap: 2rem; padding: 1.75rem 0; border-bottom: 1px solid rgba(15,26,35,0.06); }
+    .timeline-item:first-child { border-top: 1px solid rgba(15,26,35,0.06); }
+    .timeline-year { font-family:"Fraunces",serif; font-size:1.5rem; font-weight:700; color:var(--teal); padding-top: 0.1rem; }
+    .timeline-content h4 { font-family:"Fraunces",serif; font-size:1.05rem; font-weight:600; margin-bottom:0.35rem; }
+    .timeline-content p { font-size:0.875rem; color:rgba(15,26,35,0.6); line-height:1.65; }
+    /* CTA */
+    .cta-inner { max-width: 1200px; margin: 0 auto; border-radius: 2rem; padding: 4rem; background: var(--ink); color: #fff; text-align: center; position: relative; overflow: hidden; }
+    .cta-inner::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 30% 50%, rgba(42,157,143,0.25), transparent 60%), radial-gradient(ellipse at 70% 50%, rgba(197,143,58,0.15), transparent 60%); }
+    .cta-inner h2 { font-family:"Fraunces",serif; font-size:clamp(2rem,4vw,3rem); font-weight:700; margin-bottom:1rem; position:relative; }
+    .cta-inner h2 em { font-style:italic; color: var(--gold); }
+    .cta-inner p { color:rgba(255,255,255,0.65); font-size:1.0625rem; max-width:500px; margin:0 auto 2rem; position:relative; }
+    .btn-gold { background: var(--gold); color: var(--ink); padding: 0.8rem 2rem; border-radius:999px; font-weight:600; text-decoration:none; display:inline-block; font-size:0.9375rem; transition:filter 0.2s; position:relative; }
+    .btn-gold:hover { filter:brightness(1.1); }
+    /* FOOTER */
+    footer { background: var(--ink); color: rgba(255,255,255,0.65); }
+    .footer-inner { max-width:1200px; margin:0 auto; padding: 4rem 1.5rem 2rem; display:grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap:3rem; }
+    .footer-brand { font-family:"Fraunces",serif; font-size:1.4rem; color:#fff; margin-bottom:0.75rem; }
+    .footer-sub { font-size:0.875rem; line-height:1.7; color:rgba(255,255,255,0.5); max-width:240px; }
+    .footer-col h5 { font-size:0.7rem; text-transform:uppercase; letter-spacing:0.15em; color:rgba(255,255,255,0.4); margin-bottom:1rem; }
+    .footer-col a { display:block; color:rgba(255,255,255,0.6); text-decoration:none; font-size:0.875rem; margin-bottom:0.6rem; transition:color 0.2s; }
+    .footer-col a:hover { color:#fff; }
+    .footer-bottom { max-width:1200px; margin:0 auto; padding: 1.5rem 1.5rem 2rem; border-top:1px solid rgba(255,255,255,0.08); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; font-size:0.8rem; color:rgba(255,255,255,0.35); }
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      .story-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .story-visual { max-width: 380px; }
+      .team-grid { grid-template-columns: repeat(2,1fr); }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      section { padding: 4rem 1.25rem; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .values-grid, .team-grid { grid-template-columns: 1fr; }
+      .timeline-item { grid-template-columns: 80px 1fr; gap: 1rem; }
+      .cta-inner { padding: 2.5rem 1.5rem; }
+      .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="{{ path('app_home') }}">Home</a>
+  <a href="{{ path('app_home') }}#categories">Shop</a>
+  <a href="{{ path('app_about') }}">About</a>
+  <a href="{{ path('app_contact') }}">Contact</a>
+  <a href="{{ path('app_login') }}">Log in</a>
+  <a href="contact.html" style="color:var(--teal);">Order Now</a>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Cosplay Couture</a>
+    <ul class="nav-links">
+      <li><a href="{{ path('app_home') }}">Home</a></li>
+      <li><a href="{{ path('app_home') }}#categories">Shop</a></li>
+      <li><a href="{{ path('app_about') }}">About</a></li>
+      <li><a href="{{ path('app_contact') }}">Contact</a></li>
+    </ul>
+    <div style="display:flex; align-items:center; gap:0.5rem;">
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      <a href="{{ path('app_login') }}" class="btn-outline" style="padding:0.52rem 1.25rem; font-size:0.85rem;">Log in</a>
+      <a href="contact.html" class="btn-teal" style="padding:0.55rem 1.25rem; font-size:0.85rem;">Order Now</a>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="container">
+    <div class="teal-tag">✦ Our Story</div>
+    <h1 class="brand fade-up" style="font-size:clamp(2.5rem,5vw,4rem); font-weight:700; line-height:1.1; margin-bottom:1rem;">
+      Crafted with passion,<br /><em style="color:var(--teal);">worn with pride</em>
+    </h1>
+    <p class="fade-up" style="color:rgba(15,26,35,0.6); font-size:1.125rem; max-width:520px; line-height:1.8; text-align:center;">
+      We're a small studio of dedicated cosplayers and artisans who turned a shared obsession into a craft. Every costume we make carries a piece of us.
+    </p>
+  </div>
+</div>
+
+<!-- ① STORY -->
+<section id="story">
+  <div class="container">
+    <div class="story-grid">
+      <div>
+        <div class="teal-tag">✦ How It Began</div>
+        <h2 class="brand fade-up" style="font-size:clamp(1.75rem,3.5vw,2.5rem); font-weight:700; line-height:1.2; margin-bottom:1.25rem;">
+          From a bedroom workshop to the convention stage
+        </h2>
+        <div style="display:flex; flex-direction:column; gap:1rem; color:rgba(15,26,35,0.68); font-size:0.9875rem; line-height:1.8;" class="fade-up">
+          <p>It started in 2019 when our founder, Sofia Reyes, couldn't find a costume that fit her vision — or her measurements. Armed with a sewing machine, a pile of reference images, and a lot of determination, she made her first costume for AniManila.</p>
+          <p>The costume won Best in Cosplay. Her inbox never recovered.</p>
+          <p>By 2021, Sofia had assembled a small team of fellow cosplayers-turned-craftspeople, and Cosplay Couture officially opened its doors. Today we serve cosplayers across the Philippines and beyond — still handmaking every single order with the same obsessive attention to detail that started it all.</p>
+        </div>
+        <div style="margin-top:2rem;" class="fade-up">
+          <a href="contact.html" class="btn-teal">Start Your Order</a>
+        </div>
+      </div>
+      <div class="story-visual panel fade-up">
+        <div class="story-badge">
+          <div class="big">800+</div>
+          <div class="sm">Costumes Delivered</div>
+        </div>
+        <div class="story-year">2019</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ② VALUES -->
+<section id="values" style="background: rgba(255,255,255,0.22); backdrop-filter:blur(6px);">
+  <div class="container">
+    <div class="teal-tag">✦ What We Stand For</div>
+    <h2 class="brand" style="font-size:clamp(1.75rem,3.5vw,2.5rem); font-weight:700; line-height:1.2; max-width:500px;">
+      Our values shape every stitch we make
+    </h2>
+
+    <div class="values-grid">
+      <div class="value-card card-surface fade-up">
+        <div class="value-icon">🎯</div>
+        <h3>Accuracy First</h3>
+        <p>We study reference material obsessively. Our goal is for every costume to be instantly recognizable — to cosplayers and casual fans alike.</p>
+      </div>
+      <div class="value-card card-surface fade-up">
+        <div class="value-icon">🤝</div>
+        <h3>Real Collaboration</h3>
+        <p>You're not just a client, you're a co-creator. We keep communication open throughout the entire process and welcome every input.</p>
+      </div>
+      <div class="value-card card-surface fade-up">
+        <div class="value-icon">✂️</div>
+        <h3>Craft Over Speed</h3>
+        <p>We take the time each costume deserves. Rushed work shows — so we never rush. Our timelines reflect the effort, not impatience.</p>
+      </div>
+      <div class="value-card card-surface fade-up">
+        <div class="value-icon">📐</div>
+        <h3>Made For Your Body</h3>
+        <p>Every costume is patterned to your measurements. No alterations, no pins — it fits because we made it for you.</p>
+      </div>
+      <div class="value-card card-surface fade-up">
+        <div class="value-icon">♻️</div>
+        <h3>Responsible Materials</h3>
+        <p>We source quality, durable fabrics and aim to minimize waste. Good craft should be good for the planet too.</p>
+      </div>
+      <div class="value-card card-surface fade-up">
+        <div class="value-icon">🌟</div>
+        <h3>Community Roots</h3>
+        <p>We grew up in the cosplay community. We sponsor local cons, support emerging cosplayers, and give back whenever we can.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ③ MEET THE TEAM -->
+<section id="team">
+  <div class="container">
+    <div class="teal-tag">✦ Meet the Team</div>
+    <h2 class="brand" style="font-size:clamp(1.75rem,3.5vw,2.5rem); font-weight:700; line-height:1.2; margin-bottom:0.5rem;">
+      The hands behind<br /><em style="color:var(--teal);">every costume</em>
+    </h2>
+    <p style="color:rgba(15,26,35,0.6); font-size:1rem; max-width:480px; line-height:1.8;">A small but mighty crew of makers, dreamers, and dedicated fans.</p>
+
+    <div class="team-grid">
+      <!-- Sofia -->
+      <div class="team-card card-surface fade-up">
+        <div class="team-avatar-wrap" style="background: linear-gradient(145deg, rgba(42,157,143,0.25), rgba(42,157,143,0.08));">
+          <div class="team-initials" style="color:rgba(31,122,112,0.5);">SR</div>
+          <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:4rem; opacity:0.18;">✦</div>
+        </div>
+        <div class="team-body">
+          <div class="team-name">Sofia Reyes</div>
+          <div class="team-role">Founder & Lead Designer</div>
+          <p class="team-bio">The visionary behind Cosplay Couture. Sofia handles concept approval, complex builds, and mentors every new team member.</p>
+        </div>
+      </div>
+      <!-- Marco -->
+      <div class="team-card card-surface fade-up">
+        <div class="team-avatar-wrap" style="background: linear-gradient(145deg, rgba(197,143,58,0.22), rgba(197,143,58,0.07));">
+          <div class="team-initials" style="color:rgba(158,114,46,0.5);">MC</div>
+          <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:4rem; opacity:0.15;">⚙️</div>
+        </div>
+        <div class="team-body">
+          <div class="team-name">Marco Cruz</div>
+          <div class="team-role">Armor & Props Specialist</div>
+          <p class="team-bio">Marco crafts every piece of armor and weaponry. His EVA foam techniques are the stuff of convention legend.</p>
+        </div>
+      </div>
+      <!-- Anika -->
+      <div class="team-card card-surface fade-up">
+        <div class="team-avatar-wrap" style="background: linear-gradient(145deg, rgba(180,93,92,0.2), rgba(180,93,92,0.06));">
+          <div class="team-initials" style="color:rgba(144,74,74,0.5);">AL</div>
+          <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:4rem; opacity:0.15;">✂️</div>
+        </div>
+        <div class="team-body">
+          <div class="team-name">Anika Lim</div>
+          <div class="team-role">Senior Seamstress</div>
+          <p class="team-bio">Ten years of tailoring experience makes Anika our go-to for intricate garments, delicate fabrics, and impossible requests.</p>
+        </div>
+      </div>
+      <!-- Diego -->
+      <div class="team-card card-surface fade-up">
+        <div class="team-avatar-wrap" style="background: linear-gradient(145deg, rgba(42,157,143,0.15), rgba(197,143,58,0.1));">
+          <div class="team-initials" style="color:rgba(42,100,90,0.4);">DT</div>
+          <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:4rem; opacity:0.12;">🎨</div>
+        </div>
+        <div class="team-body">
+          <div class="team-name">Diego Torres</div>
+          <div class="team-role">Painter & Finisher</div>
+          <p class="team-bio">Diego's hand-painted details and weathering effects are what elevate our costumes from good to jaw-dropping.</p>
+        </div>
+      </div>
+      <!-- Jess -->
+      <div class="team-card card-surface fade-up">
+        <div class="team-avatar-wrap" style="background: linear-gradient(145deg, rgba(197,143,58,0.18), rgba(180,93,92,0.1));">
+          <div class="team-initials" style="color:rgba(140,100,40,0.4);">JR</div>
+          <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:4rem; opacity:0.13;">💡</div>
+        </div>
+        <div class="team-body">
+          <div class="team-name">Jessica Ramos</div>
+          <div class="team-role">Client Relations & Orders</div>
+          <p class="team-bio">Jessica is your first point of contact — she handles quotes, measurements, scheduling, and making sure everyone's smiling.</p>
+        </div>
+      </div>
+      <!-- Kyle -->
+      <div class="team-card card-surface fade-up">
+        <div class="team-avatar-wrap" style="background: linear-gradient(145deg, rgba(15,26,35,0.12), rgba(42,157,143,0.08));">
+          <div class="team-initials" style="color:rgba(15,26,35,0.3);">KS</div>
+          <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:4rem; opacity:0.1;">📦</div>
+        </div>
+        <div class="team-body">
+          <div class="team-name">Kyle Santos</div>
+          <div class="team-role">Logistics & Shipping</div>
+          <p class="team-bio">Kyle ensures every costume arrives safely, on time, and packed with enough care to survive even international shipping.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ④ MILESTONES -->
+<section id="milestones" style="background: rgba(255,255,255,0.22); backdrop-filter:blur(6px);">
+  <div class="container">
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:5rem; align-items:start;">
+      <div>
+        <div class="teal-tag">✦ Our Journey</div>
+        <h2 class="brand" style="font-size:clamp(1.75rem,3.5vw,2.5rem); font-weight:700; line-height:1.2;">
+          Five years of making <em style="color:var(--teal);">unforgettable</em> moments
+        </h2>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item fade-up">
+          <div class="timeline-year">2019</div>
+          <div class="timeline-content">
+            <h4>First costume wins Best in Cosplay</h4>
+            <p>Sofia's debut Demon Slayer build at AniManila wins top prize — and a flood of commission requests follows.</p>
+          </div>
+        </div>
+        <div class="timeline-item fade-up">
+          <div class="timeline-year">2021</div>
+          <div class="timeline-content">
+            <h4>Cosplay Couture officially launches</h4>
+            <p>The studio opens with a team of four, a dedicated workspace in Quezon City, and a waitlist from day one.</p>
+          </div>
+        </div>
+        <div class="timeline-item fade-up">
+          <div class="timeline-year">2022</div>
+          <div class="timeline-content">
+            <h4>500th costume delivered</h4>
+            <p>We hit a major milestone and celebrate by sponsoring three emerging cosplayers at Ozine Fest.</p>
+          </div>
+        </div>
+        <div class="timeline-item fade-up">
+          <div class="timeline-year">2024</div>
+          <div class="timeline-content">
+            <h4>International shipping launches</h4>
+            <p>We begin accepting orders from Singapore, Australia, and the US — bringing Filipino craftsmanship worldwide.</p>
+          </div>
+        </div>
+        <div class="timeline-item fade-up">
+          <div class="timeline-year">2026</div>
+          <div class="timeline-content">
+            <h4>800+ costumes and counting</h4>
+            <p>We've grown to a team of six with a larger studio space and a new custom order management system.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="padding: 5rem 1.5rem;">
+  <div class="cta-inner">
+    <h2>Want to work with <em>our team?</em></h2>
+    <p>Every order gets personal attention from the same people you just met. Let's make something incredible together.</p>
+    <a href="contact.html" class="btn-gold">Get in Touch →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Cosplay Couture</div>
+      <p class="footer-sub">Handcrafted premium cosplay costumes made to order in Manila, Philippines.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Shop</h5>
+      <a href="index.html#categories">Anime</a>
+      <a href="index.html#categories">Video Games</a>
+      <a href="index.html#categories">Film & TV</a>
+      <a href="index.html#categories">Original Designs</a>
+    </div>
+    <div class="footer-col">
+      <h5>Studio</h5>
+      <a href="about.html">About Us</a>
+      <a href="about.html#team">The Team</a>
+      <a href="about.html#milestones">Our Story</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h5>Help</h5>
+      <a href="#">Sizing Guide</a>
+      <a href="#">Shipping</a>
+      <a href="#">Returns</a>
+      <a href="#">FAQ</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Cosplay Couture. All rights reserved.</span>
+    <span>Made with ✦ in Manila</span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('hamburger').addEventListener('click', () => document.getElementById('mobileMenu').classList.add('open'));
+  document.getElementById('mobileClose').addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open'));
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), (i % 4) * 100); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

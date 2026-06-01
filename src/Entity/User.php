@@ -40,7 +40,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $verificationToken = null;
+    
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $fcmToken = null;
 
+    public function getFcmToken(): ?string
+    {
+        return $this->fcmToken;
+    }
+
+    public function setFcmToken(?string $fcmToken): static
+    {
+        $this->fcmToken = $fcmToken;
+        return $this;
+    }
     public function getId(): ?int
     {
         return $this->id;
